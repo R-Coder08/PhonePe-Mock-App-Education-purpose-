@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>PhonePe – History</title>
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- Flaticon Link from User for Bottom Nav -->
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+    --pp:#5f259f;
+    --g100:#f9f9f9;
+    --g200:#f0f2f5;
+    --g400:#b0a8c8;
+    --g600:#6b6383;
+    --g900:#1a1229;
+    --blue:#1a3fbf;
+}
+html,body{
+    width:100%;
+    min-height:100%;
+    font-family:'Nunito',sans-serif;
+    background:#ffffff;
+    overflow-x:hidden;
+}
+
+/* ─── HEADER SECTION ─── */
+.header-wrapper {
+    padding: 16px 20px 10px;
+    background: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.top-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 4px;
+}
+.help-icon {
+    width: 24px;
+    height: 24px;
+    border: 1.5px solid #888;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 12px;
+    cursor: pointer;
+}
+.header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+.page-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--g900);
+    line-height: 1;
+}
+.statements-btn {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--g600);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+.statements-btn i {
+    font-size: 12px;
+}
+
+/* ─── SEARCH BAR ─── */
+.search-box {
+    width: 100%;
+    height: 48px;
+    background: #f2f4f7;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+}
+.search-box i.search-icon {
+    color: #888;
+    font-size: 18px;
+}
+.search-box input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--g900);
+}
+.search-box input::placeholder {
+    color: #999;
+}
+.search-box i.filter-icon {
+    color: #888;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* ─── TRANSACTIONS LIST ─── */
+.txn-list {
+    padding: 10px 20px 90px;
+}
+.txn-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 18px 0;
+    border-bottom: 1px solid #f0f2f5;
+    cursor: pointer;
+    transition: background 0.15s;
+    animation: fadeUp 0.35s ease both;
+}
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.txn-item:active {
+    opacity: 0.7;
+}
+
+/* Icons / Avatars */
+.txn-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #f0f2f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 14px;
+    overflow: hidden;
+}
+.icon-arrow {
+    font-size: 16px;
+    color: var(--g900);
+}
+.icon-sent { transform: rotate(45deg); } /* ↗ Arrow Up-Right for sent */
+
+/* Details */
+.txn-details {
+    flex: 1;
+}
+.txn-type {
+    font-size: 12px;
+    font-weight: 600;
+    color: #757575;
+    margin-bottom: 2px;
+}
+.txn-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--g900);
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+.txn-time {
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    margin-top: 4px;
+}
+
+/* Right Side (Amount & Status) */
+.txn-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.txn-amount {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--g900); /* Black amount as per image */
+}
+.txn-status {
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.tiny-bank-icon {
+    width: 12px;
+    height: 12px;
+    background: var(--blue);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 6px;
+}
+
+/* ─── EMPTY STATE (NO PAYMENTS) ─── */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    text-align: center;
+}
+.empty-state i {
+    font-size: 48px;
+    color: #e0e0e0;
+    margin-bottom: 16px;
+}
+.empty-state .es-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #666;
+}
+.empty-state .es-sub {
+    font-size: 12px;
+    font-weight: 600;
+    color: #999;
+    margin-top: 4px;
+}
+
+/* ─── NEW BOTTOM NAV (FLATICON) ─── */
+.bottom-nav {
+    width: 100%;
+    height: 70px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #e0e0e0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+}
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #757575;
+    flex: 1;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+}
+.nav-item i {
+    font-size: 22px;
+    margin-bottom: 2px;
+}
+.nav-item span {
+    font-size: 11px;
+    font-weight: 500;
+}
+.nav-item.active {
+    color: #000000;
+}
+.nav-item.active span {
+    font-weight: 700;
+}
+.scan-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.scan-button {
+    width: 60px;
+    height: 60px;
+    background-color: #6711BE;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    box-shadow: 0 4px 10px rgba(106, 27, 154, 0.3);
+    transform: translateY(-12px); 
+}
+.scan-button .custom-qr-icon {
+    width: 28px; 
+    height: 28px;
+    object-fit: contain; 
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER SECTION -->
+<div class="header-wrapper">
+    <div class="top-actions">
+        <div class="help-icon"><i class="fa-solid fa-question"></i></div>
+    </div>
+    <div class="header-main">
+        <div class="page-title">History</div>
+        <div class="statements-btn"><i class="fa-solid fa-arrow-down"></i> My Statements</div>
+    </div>
+
+    <!-- SEARCH BAR -->
+    <div class="search-box">
+        <i class="fi fi-rr-search search-icon"></i>
+        <input type="text" placeholder="Search transactions" oninput="filterTxn(this.value)">
+        <i class="fi fi-rr-settings-sliders filter-icon"></i>
+    </div>
+</div>
+
+<!-- EMPTY STATE (Shows when no history) -->
+<div class="empty-state" id="emptyState" style="display: none;">
+    <i class="fa-solid fa-receipt"></i>
+    <div class="es-title">No payment yet</div>
+    <div class="es-sub">Your transactions will appear here</div>
+</div>
+
+<!-- TRANSACTIONS LIST -->
+<div class="txn-list" id="txnList">
+    <!-- Dynamic Transactions Will Appear Here -->
+</div>
+
+<!-- ─── BOTTOM NAV ─── -->
+<nav class="bottom-nav">
+    <a class="nav-item" href="home.html">
+        <i class="fi fi-rr-house-chimney"></i>
+        <span>Home</span>
+    </a>
+
+    <a class="nav-item" href="search.html">
+        <i class="fi fi-rr-search"></i>
+        <span>Search</span>
+    </a>
+
+    <div class="scan-container" onclick="location.href='QRScan.html'">
+        <div class="scan-button">
+            <img src="qr-code.png" alt="Scan QR" class="custom-qr-icon">
+        </div>
+    </div>
+
+    <!-- Removed the red badge div from here -->
+    <a class="nav-item" href="alerts.html">
+        <i class="fi fi-rr-bell"></i>
+        <span>Alerts</span>
+    </a>
+
+    <!-- History Tab is ACTIVE -->
+    <a class="nav-item active" href="history.html">
+        <i class="fi fi-rr-time-past"></i>
+        <span>History</span>
+    </a>
+</nav>
+
+<script>
+// Logic to Auto-Save and Load Real Transactions
+function loadHistory() {
+    const list = document.getElementById('txnList');
+    const emptyState = document.getElementById('emptyState');
+    
+    // 1. Get existing saved transactions from LocalStorage
+    let txns = JSON.parse(localStorage.getItem('pp_real_txns') || '[]');
+    
+    // 2. Check if a new payment was just made (Data comes from sessionStorage saved in upipay.html)
+    const recentRef = sessionStorage.getItem('txn_ref');
+    if (recentRef) {
+        // Prevent duplicate saving
+        const alreadySaved = txns.find(t => t.ref === recentRef);
+        if (!alreadySaved) {
+            // Save new transaction
+            txns.push({
+                ref: recentRef,
+                name: sessionStorage.getItem('txn_name') || 'Unknown',
+                amount: sessionStorage.getItem('txn_amt') || '0',
+                date: sessionStorage.getItem('txn_date') || 'Just now',
+            });
+            localStorage.setItem('pp_real_txns', JSON.stringify(txns));
+        }
+    }
+
+    // 3. Render UI
+    if (txns.length === 0) {
+        emptyState.style.display = 'flex';
+        list.innerHTML = '';
+    } else {
+        emptyState.style.display = 'none';
+        list.innerHTML = '';
+        
+        // Loop backwards to show the newest transaction on top
+        for (let i = txns.length - 1; i >= 0; i--) {
+            const t = txns[i];
+            const formattedAmt = Number(t.amount).toLocaleString('en-IN');
+            
+            // Format short date (e.g. removing time)
+            let shortDate = t.date.split(' at ')[0]; 
+
+            const html = `
+                <div class="txn-item" data-name="${t.name}">
+                    <div class="txn-avatar">
+                        <i class="fa-solid fa-arrow-up icon-arrow icon-sent"></i>
+                    </div>
+                    <div class="txn-details">
+                        <div class="txn-type">Paid to</div>
+                        <div class="txn-name">${t.name}</div>
+                        <div class="txn-time">${shortDate}</div>
+                    </div>
+                    <div class="txn-right">
+                        <div class="txn-amount">₹${formattedAmt}</div>
+                        <div class="txn-status">Debited from <div class="tiny-bank-icon"><i class="fa-solid fa-building-columns"></i></div></div>
+                    </div>
+                </div>
+            `;
+            list.innerHTML += html;
+        }
+    }
+}
+
+// Search Filter Logic
+function filterTxn(query) {
+    const items = document.querySelectorAll('.txn-item');
+    query = query.toLowerCase();
+    
+    items.forEach(item => {
+        const name = item.getAttribute('data-name').toLowerCase();
+        if (name.includes(query)) {
+            item.style.display = 'flex';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+// Load history automatically when page opens
+window.onload = loadHistory;
+</script>
+
+</body>
+</html>

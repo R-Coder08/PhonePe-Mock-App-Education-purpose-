@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>UPI Pay</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+    --bg-color: #f3f4f8;
+    --g900: #1a1229;
+    --blue-btn: #2b44a8;
+    --del-btn: #d5dae8;
+}
+html,body{width:100%;height:100%;font-family:'Nunito',sans-serif;background:var(--bg-color);overflow:hidden}
+
+.page{width:100%;height:100%;display:flex;flex-direction:column}
+
+/* ─── HEADER ─── */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px 20px 10px;
+}
+.header-left {
+    display: flex;
+    flex-direction: column;
+}
+/* Replaced text CSS with Image CSS for UPI Logo */
+.upi-logo-img {
+    height: 22px; /* Set desired height, width will auto-adjust */
+    object-fit: contain;
+    margin-bottom: 8px;
+    display: block;
+}
+.bank-name {
+    font-size: 12px;
+    font-weight: 800;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.close-btn {
+    font-size: 22px;
+    color: #666;
+    cursor: pointer;
+}
+
+/* ─── AMOUNT CARD ─── */
+.amount-wrapper {
+    padding: 10px 20px;
+}
+.amount-card {
+    background: #fbf1ea; /* Light peach/beige from image */
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+.ac-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.ac-pay {
+    font-size: 20px;
+    font-weight: 800;
+    color: #333;
+}
+.ac-to {
+    font-size: 13px;
+    font-weight: 700;
+    color: #666;
+    text-transform: uppercase;
+}
+.ac-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.ac-rupee {
+    font-size: 16px;
+    font-weight: 800;
+    color: #777;
+}
+.ac-icon {
+    width: 24px;
+    height: 24px;
+    background: #738be6;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 12px;
+}
+
+/* ─── PIN ENTRY AREA ─── */
+.pin-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+.pin-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 24px;
+}
+.pin-dots {
+    display: flex;
+    gap: 16px;
+}
+.dot {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #b0b5c1;
+    border-radius: 50%;
+    transition: all 0.1s;
+}
+.dot.filled {
+    background: #333;
+    border-color: #333;
+}
+
+/* Shake Animation */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+}
+.shake { animation: shake 0.3s ease; }
+
+/* ─── WARNING TEXT ─── */
+.warning-wrap {
+    text-align: center;
+    padding: 0 20px 20px;
+}
+.warning-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8a8d96;
+    font-style: italic;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ─── NUMPAD ─── */
+.numpad-container {
+    padding: 0 14px 20px;
+    background: transparent;
+}
+.numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+.nkey {
+    height: 56px;
+    background: #ffffff;
+    border: none;
+    border-radius: 16px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: #333;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s, background 0.1s;
+    user-select: none;
+}
+.nkey:active {
+    transform: scale(0.94);
+    background: #f0f0f0;
+}
+.nkey.del-btn {
+    background: var(--del-btn);
+    color: #555;
+    font-size: 20px;
+    box-shadow: none;
+}
+.nkey.del-btn:active { background: #c2c9dc; }
+.nkey.pay-btn {
+    background: var(--blue-btn);
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 800;
+    box-shadow: 0 4px 12px rgba(43, 68, 168, 0.3);
+}
+.nkey.pay-btn:active { background: #1c2e7a; }
+
+
+/* ─── FULLSCREEN OVERLAYS (UNCHANGED AS REQUESTED) ─── */
+.fs-overlay{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.fs-overlay.show{opacity:1;pointer-events:all}
+
+/* CONNECTING SCREEN ANIMATION */
+#connectScreen{background:#f0f2f5}
+.loader-container {
+    width: 160px; height: 45px; background-color: #6427A6; border-radius: 50px; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.15); margin-bottom: 16px;
+}
+.layer { position: absolute; top: 0; left: -110%; width: 100%; height: 100%; border-radius: 50px; animation: fastSlide 1.5s infinite cubic-bezier(0.65, 0.05, 0.36, 1); }
+.layer-1 { background-color: #CC8DDF; z-index: 1; }
+.layer-2 { background-color: #EDDEF3; z-index: 2; animation-delay: 0.18s; }
+@keyframes fastSlide { 0% { left: -110%; } 50% { left: 0%; } 100% { left: 110%; } }
+.connect-text{font-size:15px;font-weight:700;color:var(--g900);font-family:'Nunito',sans-serif;margin-top: 4px;}
+
+/* SUCCESS SCREEN ANIMATION */
+#successScreen{ background:#2e7d32; transition: none; }
+#successScreen.show { opacity: 1; pointer-events: all; animation: ppGreenReveal 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+@keyframes ppGreenReveal { 0% { clip-path: circle(0% at 30% 50%); opacity: 1; } 100% { clip-path: circle(150% at 30% 50%); opacity: 1; } }
+.success-circle{ width:80px;height:80px;border-radius:50%;background:#fff; display:flex;align-items:center;justify-content:center; z-index:2; margin-bottom:18px; transform: scale(0); }
+#successScreen.show .success-circle { animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s forwards; }
+@keyframes popIn{ 0% { transform:scale(0); } 100% { transform:scale(1); } }
+.success-circle i{font-size:38px;color:#2e7d32}
+.success-title, .success-date { opacity: 0; transform: translateY(20px); z-index: 2; }
+.success-title{font-size:22px;font-weight:900;color:#fff;margin-bottom:8px}
+.success-date{font-size:14px;font-weight:700;color:#a5d6a7}
+#successScreen.show .success-title { animation: slideUpFade 0.4s ease-out 0.3s forwards; }
+#successScreen.show .success-date { animation: slideUpFade 0.4s ease-out 0.4s forwards; }
+@keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
+.success-ripple{ position:absolute;border-radius:50%;border:3px solid rgba(255,255,255,.3); opacity: 0; z-index: 1; }
+#successScreen.show .ripple1{width:160px;height:160px; animation:rippleOut 1.5s ease-out 0.4s infinite;}
+#successScreen.show .ripple2{width:220px;height:220px; animation:rippleOut 1.5s ease-out 0.8s infinite;}
+#successScreen.show .ripple3{width:280px;height:280px; animation:rippleOut 1.5s ease-out 1.2s infinite;}
+@keyframes rippleOut{ 0% { opacity:.7; transform:scale(.6); } 100% { opacity:0; transform:scale(1); } }
+</style>
+</head>
+<body>
+
+<div class="page" id="mainPage">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+        <!-- Replaced old text logo with Image -->
+        <img src="upilogo.png" alt="UPI" class="upi-logo-img">
+        <div class="bank-name" id="displayBank">SAVINGS: BANK OF BARODA - 35...</div>
+    </div>
+    <div class="close-btn" onclick="history.back()"><i class="fa-solid fa-xmark"></i></div>
+  </div>
+
+  <!-- AMOUNT CARD -->
+  <div class="amount-wrapper">
+    <div class="amount-card">
+        <div class="ac-left">
+            <div class="ac-pay" id="displayAmt">Pay ₹0.00</div>
+            <div class="ac-to" id="displayTo">TO UNKNOWN</div>
+        </div>
+        <div class="ac-right">
+            <div class="ac-rupee">₹&nbsp;·</div>
+            <div class="ac-icon"><i class="fa-solid fa-user"></i></div>
+        </div>
+    </div>
+  </div>
+
+  <!-- PIN ENTRY AREA -->
+  <div class="pin-section">
+    <div class="pin-title">Enter your PIN</div>
+    <div class="pin-dots" id="pinDots">
+        <div class="dot" id="d0"></div>
+        <div class="dot" id="d1"></div>
+        <div class="dot" id="d2"></div>
+        <div class="dot" id="d3"></div>
+    </div>
+  </div>
+
+  <!-- WARNING -->
+  <div class="warning-wrap">
+    <div class="warning-text">
+        <i class="fa-regular fa-circle-xmark"></i> Never enter your UPI PIN to receive money
+    </div>
+  </div>
+
+  <!-- NUMPAD -->
+  <div class="numpad-container">
+    <div class="numpad">
+        <button class="nkey" onclick="press('1')">1</button>
+        <button class="nkey" onclick="press('2')">2</button>
+        <button class="nkey" onclick="press('3')">3</button>
+        <button class="nkey" onclick="press('4')">4</button>
+        <button class="nkey" onclick="press('5')">5</button>
+        <button class="nkey" onclick="press('6')">6</button>
+        <button class="nkey" onclick="press('7')">7</button>
+        <button class="nkey" onclick="press('8')">8</button>
+        <button class="nkey" onclick="press('9')">9</button>
+        
+        <button class="nkey del-btn" onclick="backspace()"><i class="fa-solid fa-delete-left"></i></button>
+        <button class="nkey" onclick="press('0')">0</button>
+        <button class="nkey pay-btn" onclick="paySubmit()">Pay</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- CONNECTING OVERLAY -->
+<div class="fs-overlay" id="connectScreen">
+  <div class="loader-container">
+      <div class="layer layer-1"></div>
+      <div class="layer layer-2"></div>
+  </div>
+  <div class="connect-text">Connecting Securely</div>
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div class="fs-overlay" id="successScreen">
+  <div class="success-ripple ripple1"></div>
+  <div class="success-ripple ripple2"></div>
+  <div class="success-ripple ripple3"></div>
+  <div class="success-circle"><i class="fa-solid fa-check"></i></div>
+  <div class="success-title">Payment Successful</div>
+  <div class="success-date" id="successDate">—</div>
+</div>
+
+<script>
+// LOAD DYNAMIC DATA
+let finalBank = localStorage.getItem('pp_custom_bank') || 'BANK OF BARODA - 35XX';
+// Receiver Name Priority: 1. managepp setting (localStorage) -> 2. Normal Flow (sessionStorage) -> 3. Fallback
+let finalName = localStorage.getItem('pp_custom_name') || sessionStorage.getItem('pay_name') || 'MD FIROZ ALAM';
+let finalAmt = sessionStorage.getItem('pay_amt') || '10';
+
+// Apply to UI
+document.getElementById('displayBank').textContent = 'SAVINGS: ' + finalBank.toUpperCase();
+document.getElementById('displayTo').textContent = 'TO ' + finalName.toUpperCase();
+document.getElementById('displayAmt').textContent = 'Pay ₹' + Number(finalAmt).toFixed(2);
+
+// NUMPAD LOGIC
+let pin = '';
+function press(num) {
+    if(pin.length < 4) {
+        pin += num;
+        updateDots();
+    }
+}
+function backspace() {
+    if(pin.length > 0) {
+        pin = pin.slice(0, -1);
+        updateDots();
+    }
+}
+function updateDots() {
+    for(let i=0; i<4; i++) {
+        const dot = document.getElementById('d'+i);
+        dot.classList.toggle('filled', i < pin.length);
+    }
+}
+
+// SUBMIT LOGIC
+function paySubmit() {
+    if(pin.length === 4) {
+        // Correct PIN entered, proceed
+        processPayment();
+    } else {
+        // Incomplete PIN, show shake animation
+        const dotsEl = document.getElementById('pinDots');
+        dotsEl.classList.add('shake');
+        setTimeout(() => dotsEl.classList.remove('shake'), 300);
+    }
+}
+
+function processPayment() {
+  // 1. Show connecting screen
+  const connectEl = document.getElementById('connectScreen');
+  connectEl.classList.add('show');
+
+  // 2. After 2 seconds, hide connecting and show success
+  setTimeout(()=>{
+    connectEl.classList.remove('show');
+    showSuccess();
+  }, 2000);
+}
+
+function showSuccess() {
+  const now = new Date();
+  const opts = { day:'numeric', month:'long', year:'numeric' };
+  const datePart = now.toLocaleDateString('en-IN', opts);
+  const h = now.getHours(), m = String(now.getMinutes()).padStart(2,'0');
+  const ampm = h >= 12 ? 'pm' : 'am';
+  const h12 = ((h%12) || 12);
+  
+  document.getElementById('successDate').textContent = `${datePart} at ${h12}:${m} ${ampm}`;
+
+  const suc = document.getElementById('successScreen');
+  suc.classList.add('show');
+
+  // 3. Wait 2.5s for success animation then redirect to receipt
+  setTimeout(()=>{
+    // Save transaction data for receipt and history page
+    sessionStorage.setItem('txn_name', finalName);
+    sessionStorage.setItem('txn_upi', localStorage.getItem('pp_custom_upi') || 'receiver@upi');
+    sessionStorage.setItem('txn_amt', finalAmt);
+    sessionStorage.setItem('txn_msg', sessionStorage.getItem('pay_msg') || '');
+    sessionStorage.setItem('txn_date', document.getElementById('successDate').textContent);
+    sessionStorage.setItem('txn_ref', 'UPI' + Date.now().toString().slice(-12));
+    
+    location.href = 'trans.html';
+  }, 2500);
+}
+</script>
+</body>
+</html>

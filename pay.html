@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Pay</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--pp:#5f259f;--pp-soft:#ede4f9;--g100:#f7f7fb;--g200:#eeecf5;--g400:#b0a8c8;--g600:#6b6383;--g900:#1a1229}
+html,body{width:100%;height:100%;font-family:'Nunito',sans-serif;background:#fff;overflow-x:hidden}
+
+/* HEADER */
+.header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--g200);background:#fff;position:sticky;top:0;z-index:10}
+.back-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;font-size:18px;color:var(--g900)}
+.header-title{font-size:18px;font-weight:800;color:var(--g900)}
+.help-btn{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--g400);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--g600);background:none}
+
+/* USER CARD */
+.user-card{display:flex;align-items:center;gap:14px;padding:20px 18px 16px;background:#fff;border-bottom:8px solid var(--g100)}
+.user-avatar{width:52px;height:52px;border-radius:50%;background:var(--pp);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;flex-shrink:0}
+.user-info .u-name{font-size:17px;font-weight:900;color:var(--g900)}
+.user-info .u-upi{font-size:12.5px;font-weight:600;color:var(--g600);margin-top:3px}
+
+/* AMOUNT SECTION */
+.amount-section{background:#fff;padding:24px 18px 20px}
+
+.amount-box{display:flex;align-items:center;gap:0;border:2px solid var(--g200);border-radius:10px;overflow:hidden;transition:border-color .2s;margin-bottom:14px}
+.amount-box.focused{border-color:var(--pp)}
+.rupee-box{width:48px;height:56px;background:var(--g100);display:flex;align-items:center;justify-content:center;border-right:1.5px solid var(--g200);flex-shrink:0}
+.rupee-box span{font-size:22px;color:var(--g600);font-weight:700}
+.amount-input{flex:1;height:56px;border:none;outline:none;font-family:'Nunito',sans-serif;font-size:22px;font-weight:800;color:var(--g900);padding:0 14px;background:#fff}
+.amount-input::placeholder{color:var(--g200);font-weight:700}
+
+.msg-box{width:100%;height:50px;border:1.5px solid var(--g200);border-radius:10px;padding:0 14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;color:var(--g900);outline:none;transition:border-color .2s;background:#fff}
+.msg-box::placeholder{color:var(--g400)}
+.msg-box:focus{border-color:var(--pp)}
+
+/* PROCEED BTN */
+.proceed-wrap{position:fixed;bottom:0;left:0;width:100%;padding:14px 18px 28px;background:#fff;border-top:1px solid var(--g200)}
+.proceed-btn{width:100%;height:52px;background:var(--g200);border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--g600);cursor:pointer;transition:background .2s,color .2s,transform .15s}
+.proceed-btn.active{background:var(--pp);color:#fff}
+.proceed-btn.active:active{transform:scale(.97)}
+
+/* BANK INFO */
+.bank-info-row{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 0 0;opacity:.7}
+.bank-info-row i{font-size:13px;color:var(--g600)}
+.bank-info-row span{font-size:12px;font-weight:700;color:var(--g600)}
+
+/* SECURE BADGE */
+.secure-badge{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px}
+.secure-badge i{font-size:12px;color:var(--g400)}
+.secure-badge span{font-size:11.5px;color:var(--g400);font-weight:600}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <button class="back-btn" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i></button>
+  <div class="header-title">Pay</div>
+  <button class="help-btn"><i class="fa-solid fa-question"></i></button>
+</div>
+
+<!-- USER CARD -->
+<div class="user-card">
+  <div class="user-avatar" id="userAvatar">UU</div>
+  <div class="user-info">
+    <div class="u-name" id="userName">Unknown User</div>
+    <div class="u-upi" id="userUpi">unknown@upi</div>
+  </div>
+</div>
+
+<!-- AMOUNT SECTION -->
+<div class="amount-section">
+  <div class="amount-box" id="amtBox">
+    <div class="rupee-box"><span>₹</span></div>
+    <input class="amount-input" id="amountInput" type="number" placeholder="Enter amount" min="1"
+      onfocus="document.getElementById('amtBox').classList.add('focused')"
+      onblur="document.getElementById('amtBox').classList.remove('focused')"
+      oninput="checkAmount()">
+  </div>
+  <input class="msg-box" id="msgInput" type="text" placeholder="Add a message (optional)">
+  <div class="bank-info-row">
+    <i class="fa-solid fa-building-columns"></i>
+    <span id="bankName">HDFC Bank · XXXX 4521</span>
+  </div>
+  <div class="secure-badge">
+    <i class="fa-solid fa-shield-halved"></i>
+    <span>100% Secure · UPI Powered</span>
+  </div>
+</div>
+
+<!-- PROCEED BTN -->
+<div class="proceed-wrap">
+  <button class="proceed-btn" id="proceedBtn" onclick="proceedToPay()" disabled>Proceed to Pay</button>
+</div>
+
+<script>
+// Bulletproof data fetch (Force read from LocalStorage)
+let finalName = localStorage.getItem('pp_custom_name') || 'Unknown User';
+let finalUpi = localStorage.getItem('pp_custom_upi') || 'unknown@upi';
+let customBank = localStorage.getItem('pp_custom_bank') || 'HDFC Bank · XXXX 4521';
+
+// If somehow localstorage is empty, fallback to URL params just in case
+const params = new URLSearchParams(location.search);
+if (!localStorage.getItem('pp_custom_name') && params.get('name')) finalName = params.get('name');
+if (!localStorage.getItem('pp_custom_upi') && params.get('upi')) finalUpi = params.get('upi');
+const pAmt = params.get('amt') || '';
+
+// Bind data to UI
+document.getElementById('userName').textContent = finalName;
+document.getElementById('userUpi').textContent = finalUpi;
+document.getElementById('bankName').textContent = customBank;
+
+function getInitials(name){
+  if(!name) return 'UU';
+  let words = name.trim().split(' ');
+  if(words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
+  return name.substring(0, 2).toUpperCase();
+}
+document.getElementById('userAvatar').textContent = getInitials(finalName);
+
+// Pre-fill amount if QR had it
+if(pAmt && +pAmt > 0){
+  document.getElementById('amountInput').value = pAmt;
+  checkAmount();
+}
+
+function checkAmount(){
+  const v=document.getElementById('amountInput').value;
+  const btn=document.getElementById('proceedBtn');
+  if(v && +v > 0){btn.classList.add('active');btn.disabled=false}
+  else{btn.classList.remove('active');btn.disabled=true}
+}
+
+function proceedToPay(){
+  const amt=document.getElementById('amountInput').value;
+  const msg=document.getElementById('msgInput').value;
+  if(!amt || +amt <= 0) return;
+  // Save to sessionStorage for next pages
+  sessionStorage.setItem('pay_name', finalName);
+  sessionStorage.setItem('pay_upi', finalUpi);
+  sessionStorage.setItem('pay_amt', amt);
+  sessionStorage.setItem('pay_msg', msg);
+  location.href='upipay.html';
+}
+</script>
+</body>
+</html>

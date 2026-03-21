@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>PhonePe – Alerts</title>
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- Flaticon Link from User for Bottom Nav -->
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+    --g100:#f9f9f9;
+    --g200:#f0f2f5;
+    --g600:#6b6383;
+    --g900:#1a1229;
+    --red:#e53935;
+}
+html,body{
+    width:100%;
+    height:100%;
+    font-family:'Nunito',sans-serif;
+    background:#f4f6f9; /* Soft background matching the image */
+    overflow:hidden;
+}
+
+/* ─── TOP HEADER ─── */
+.top-header {
+    padding: 24px 20px 10px;
+    display: flex;
+    align-items: center;
+    background: transparent;
+}
+.page-title {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--g900);
+    letter-spacing: 0.5px;
+}
+
+/* ─── EMPTY STATE (MAILBOX) ─── */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 160px); /* Centers between header and bottom nav */
+    text-align: center;
+}
+.mailbox-img {
+    width: 240px; /* Adjust size based on your image */
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+.empty-text {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #757575;
+}
+
+/* ─── NEW BOTTOM NAV (FLATICON UI) ─── */
+.bottom-nav {
+    width: 100%;
+    height: 70px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #e0e0e0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #757575;
+    flex: 1;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+}
+
+.nav-item i {
+    font-size: 22px;
+    margin-bottom: 2px;
+}
+
+.nav-item span {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.nav-item.active {
+    color: #000000;
+}
+.nav-item.active span {
+    font-weight: 700;
+}
+
+.scan-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.scan-button {
+    width: 60px;
+    height: 60px;
+    background-color: #6711BE; /* Solid Purple */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    box-shadow: 0 4px 10px rgba(106, 27, 154, 0.3);
+    transform: translateY(-12px); 
+}
+
+/* Custom Image Icon */
+.scan-button .custom-qr-icon {
+    width: 28px; 
+    height: 28px;
+    object-fit: contain; 
+}
+</style>
+</head>
+<body>
+
+<!-- TOP HEADER -->
+<div class="top-header">
+    <div class="page-title">Alerts</div>
+</div>
+
+<!-- EMPTY STATE CONTENT -->
+<div class="empty-state">
+    <!-- Replace mailbox.png with your actual mailbox image -->
+    <img src="mailbox.png" alt="Mailbox" class="mailbox-img">
+    <div class="empty-text">All caught up</div>
+</div>
+
+<!-- ─── NEW BOTTOM NAV (FLATICON) ─── -->
+<nav class="bottom-nav">
+    <a class="nav-item" href="home.html">
+        <i class="fi fi-rr-house-chimney"></i>
+        <span>Home</span>
+    </a>
+
+    <a class="nav-item" href="search.html">
+        <i class="fi fi-rr-search"></i>
+        <span>Search</span>
+    </a>
+
+    <div class="scan-container" onclick="location.href='QRScan.html'">
+        <div class="scan-button">
+            <!-- Custom QR Icon Image -->
+            <img src="qr-code.png" alt="Scan QR" class="custom-qr-icon">
+        </div>
+    </div>
+
+    <!-- This tab is active now (Removed badge since it's "All caught up") -->
+    <a class="nav-item active" href="alerts.html">
+        <i class="fi fi-rr-bell"></i>
+        <span>Alerts</span>
+    </a>
+
+    <a class="nav-item" href="history.html">
+        <i class="fi fi-rr-time-past"></i>
+        <span>History</span>
+    </a>
+</nav>
+
+</body>
+</html>

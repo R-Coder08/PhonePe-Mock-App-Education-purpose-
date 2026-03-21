@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>PhonePe – QR Scan</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- jsQR for actual Auto QR Scanning logic -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;font-family:'Nunito',sans-serif;background:#000000;overflow:hidden}
+
+/* CAMERA VIEW */
+#videoEl{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index: 1;}
+#canvasEl{display:none}
+
+/* ─── HEADER ─── */
+.header {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    padding: 24px 20px;
+    display: flex;
+    align-items: flex-start;
+    z-index: 20;
+    color: #ffffff;
+    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+}
+.back-icon {
+    font-size: 20px;
+    cursor: pointer;
+    padding-right: 16px;
+    margin-top: 4px;
+}
+.header-text {
+    flex: 1;
+}
+.header-title {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+.header-subtitle {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 2px;
+}
+.help-icon {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    margin-top: 2px;
+}
+
+/* ─── OVERLAY & SCANNER FRAME ─── */
+.overlay-dimmer {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none; 
+}
+
+/* The Magic Cutout Box */
+.scan-frame {
+    margin-top: 16vh; 
+    width: 310px;     
+    height: 310px;    
+    border-radius: 30px; 
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.65); 
+    position: relative;
+    pointer-events: auto; 
+    cursor: pointer; /* Shows user they can click it */
+}
+
+/* Purple Corner Brackets */
+.scan-corner {
+    position: absolute;
+    width: 45px; 
+    height: 45px;
+    border-color: #a766ff; 
+    border-style: solid;
+}
+.sc-tl { top: 0; left: 0; border-width: 4px 0 0 4px; border-top-left-radius: 30px; }
+.sc-tr { top: 0; right: 0; border-width: 4px 4px 0 0; border-top-right-radius: 30px; }
+.sc-bl { bottom: 0; left: 0; border-width: 0 0 4px 4px; border-bottom-left-radius: 30px; }
+.sc-br { bottom: 0; right: 0; border-width: 0 4px 4px 0; border-bottom-right-radius: 30px; }
+
+/* Subtle Scan Line */
+.scan-line {
+    position: absolute;
+    width: 90%;
+    left: 5%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #a766ff, transparent);
+    top: 10px;
+    animation: scanMove 2s ease-in-out infinite;
+    opacity: 0.8;
+}
+@keyframes scanMove {
+    0%, 100% { top: 10px; opacity: 0; }
+    50% { top: 280px; opacity: 1; }
+}
+
+/* ─── ACTION BUTTONS (Upload QR & Torch) ─── */
+.action-buttons {
+    position: absolute;
+    top: calc(16vh + 340px); 
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+    pointer-events: auto; 
+}
+.action-btn-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+.action-circle {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15); 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 20px;
+    transition: background 0.15s;
+    outline: none;
+}
+.action-circle:active { background: rgba(255, 255, 255, 0.3); }
+.action-circle.active-torch { background: rgba(255, 220, 0, 0.4); border-color: rgba(255, 220, 0, 0.6); }
+.action-label {
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* ─── BOTTOM BRANDING (BHIM UPI IMAGE) ─── */
+.bottom-brand {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+.bottom-brand img {
+    height: 24px; 
+    object-fit: contain;
+    opacity: 0.7; 
+}
+
+/* ─── PERMISSION SCREEN (Fallback) ─── */
+.perm-screen{position:fixed;inset:0;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;z-index:80;text-align:center}
+.perm-icon{width:80px;height:80px;background:rgba(167,102,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.perm-icon i{font-size:36px;color:#a766ff}
+.perm-title{font-size:20px;font-weight:900;color:#fff;margin-bottom:8px}
+.perm-desc{font-size:13px;font-weight:600;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:28px}
+.perm-btn{width:100%;max-width:280px;height:50px;background:linear-gradient(135deg,#6e7ff3,#5f259f);border:none;border-radius:14px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin:0 auto}
+
+/* STATUS TOAST */
+.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-10px);background:rgba(30,30,30,.95);color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:700;z-index:200;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;white-space:nowrap;max-width:90%;text-align:center;border:1px solid rgba(255,255,255,.1)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.success{border-color:rgba(29,185,84,.5)}
+
+#galleryInput { display: none; }
+</style>
+</head>
+<body>
+
+<!-- Camera View -->
+<video id="videoEl" autoplay playsinline muted></video>
+<canvas id="canvasEl"></canvas>
+
+<!-- Top Header -->
+<div class="header">
+    <i class="fa-solid fa-arrow-left back-icon" onclick="stopCamera();history.back()"></i>
+    <div class="header-text">
+        <div class="header-title">Scan any QR</div>
+        <div class="header-subtitle">PhonePe • Google Pay • BHIM • Pa...</div>
+    </div>
+    <i class="fa-regular fa-circle-question help-icon"></i>
+</div>
+
+<!-- Overlay & Scanner Frame -->
+<div class="overlay-dimmer">
+    
+    <!-- IF QR FAILS TO SCAN, JUST TAP INSIDE THIS FRAME TO REDIRECT -->
+    <div class="scan-frame" onclick="forceScan()">
+        <div class="scan-corner sc-tl"></div>
+        <div class="scan-corner sc-tr"></div>
+        <div class="scan-corner sc-bl"></div>
+        <div class="scan-corner sc-br"></div>
+        <div class="scan-line" id="scanLine"></div>
+    </div>
+
+    <!-- Action Buttons (Gallery & Torch) -->
+    <div class="action-buttons">
+        <div class="action-btn-wrap" onclick="document.getElementById('galleryInput').click()">
+            <button class="action-circle"><i class="fa-regular fa-image"></i></button>
+            <div class="action-label">Upload QR</div>
+        </div>
+        
+        <div class="action-btn-wrap" onclick="toggleTorch()">
+            <button class="action-circle" id="torchBtn"><i class="fa-solid fa-bolt"></i></button>
+            <div class="action-label">Torch</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Bottom Branding Using User Image -->
+<div class="bottom-brand">
+    <img src="bhim.png" alt="BHIM UPI">
+</div>
+
+<!-- Permission Screen (Shows if Camera is blocked) -->
+<div class="perm-screen" id="permScreen" style="display:none">
+  <div class="perm-icon"><i class="fa-solid fa-camera"></i></div>
+  <div class="perm-title">Camera Access Needed</div>
+  <div class="perm-desc">PhonePe needs camera access to scan QR codes.</div>
+  <button class="perm-btn" onclick="startCamera()"><i class="fa-solid fa-camera"></i>&nbsp;Allow Camera Access</button>
+</div>
+
+<input type="file" id="galleryInput" accept="image/*" onchange="readGalleryQR(this)">
+
+<div class="toast" id="toast"></div>
+
+<script>
+let stream=null, scanning=false, torchOn=false;
+
+/* ── MOCK REDIRECT LOGIC ── */
+function processMockScan() {
+  showToast('Processing...', 'success');
+  
+  setTimeout(() => {
+    const finalName = localStorage.getItem('pp_custom_name') || 'Unknown User';
+    const finalUpi = localStorage.getItem('pp_custom_upi') || 'unknown@upi';
+    location.href = `pay.html?name=${encodeURIComponent(finalName)}&upi=${encodeURIComponent(finalUpi)}&amt=`;
+  }, 400); 
+}
+
+/* ── CAMERA START ── */
+async function startCamera(){
+  document.getElementById('permScreen').style.display='none';
+  try{
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    const video = document.getElementById('videoEl');
+    video.srcObject = stream;
+    video.setAttribute("playsinline", true);
+    video.play();
+    scanning = true;
+    
+    video.addEventListener('loadedmetadata', () => { 
+        requestAnimationFrame(scanTick); // Start high-speed scan loop
+    }); 
+  }catch(err){
+    document.getElementById('permScreen').style.display='flex';
+  }
+}
+
+function stopCamera(){
+  scanning=false;
+  if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}
+}
+
+/* ── FAST AUTO SCAN LOOP (JSQR) ── */
+function scanTick() {
+  if(!scanning) return;
+  const video = document.getElementById('videoEl');
+  const canvas = document.getElementById('canvasEl');
+  
+  if(video.readyState === video.HAVE_ENOUGH_DATA) {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    // Check if library loaded successfully
+    if (typeof jsQR !== "undefined") {
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imgData.data, imgData.width, imgData.height, { inversionAttempts: "attemptBoth" });
+        
+        if(code) {
+          scanning = false; // Stop scanning
+          document.getElementById('scanLine').style.animationPlayState='paused';
+          processMockScan(); 
+          return; 
+        }
+    }
+  }
+  // Runs as fast as the browser allows for smoother/faster scanning
+  requestAnimationFrame(scanTick); 
+}
+
+/* ── MANUAL SCAN TRIGGER ON TAP (HACK) ── */
+function forceScan() {
+  if(scanning) {
+    scanning = false;
+    document.getElementById('scanLine').style.animationPlayState='paused';
+    processMockScan(); 
+  }
+}
+
+/* ── VOLUME UP BUTTON HACK ── */
+window.addEventListener('keydown', function(e) {
+  if(e.key === 'AudioVolumeUp' || e.key === 'VolumeUp' || e.keyCode === 24 || e.keyCode === 175) {
+    if(scanning) {
+      scanning = false;
+      document.getElementById('scanLine').style.animationPlayState='paused';
+      processMockScan(); 
+    }
+  }
+});
+
+/* ── TORCH ── */
+async function toggleTorch(){
+  if(!stream)return;
+  const track=stream.getVideoTracks()[0];
+  if(!track)return;
+  try{
+    torchOn=!torchOn;
+    await track.applyConstraints({advanced:[{torch:torchOn}]});
+    document.getElementById('torchBtn').classList.toggle('active-torch',torchOn);
+  }catch(e){}
+}
+
+/* ── GALLERY REDIRECT ── */
+function readGalleryQR(input){
+  const f=input.files[0];
+  if(!f)return;
+  showToast('Processing Image...','');
+  setTimeout(()=>{
+    input.value='';
+    processMockScan(); 
+  }, 300);
+}
+
+function showToast(msg,type){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast show '+(type||'');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+window.addEventListener('load',()=>{
+  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+    startCamera();
+  }else{
+    document.getElementById('permScreen').style.display='flex';
+  }
+});
+window.addEventListener('pagehide',stopCamera);
+</script>
+</body>
+</html>

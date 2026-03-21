@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Transaction</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--pp:#5f259f;--pp-soft:#ede4f9;--green:#2e7d32;--green-light:#4caf50;--g100:#f7f7fb;--g200:#eeecf5;--g400:#b0a8c8;--g600:#6b6383;--g900:#1a1229}
+html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:#f0f0f0;overflow-x:hidden}
+
+/* GREEN HEADER */
+.green-header{background:var(--green);padding:40px 20px 70px;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
+/* Subtle radial glow */
+.green-header::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.07);top:-80px;right:-60px;pointer-events:none}
+
+.success-badge{width:68px;height:68px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:14px;box-shadow:0 4px 20px rgba(0,0,0,.15);animation:popIn .45s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+.success-badge i{font-size:32px;color:var(--green)}
+.success-title{font-size:20px;font-weight:900;color:#fff;margin-bottom:6px}
+.success-date{font-size:13px;font-weight:700;color:#a5d6a7}
+
+/* RECEIPT CARD */
+.receipt-card{background:#fff;border-radius:16px;margin:-40px 14px 12px;padding:16px;box-shadow:0 4px 20px rgba(0,0,0,.12);position:relative;z-index:2;animation:slideUp .4s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.receipt-user-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.r-avatar{width:48px;height:48px;border-radius:50%;background:var(--pp);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;flex-shrink:0}
+.r-user-info{flex:1}
+.r-name{font-size:16px;font-weight:900;color:var(--g900)}
+.r-upi{font-size:12px;font-weight:600;color:var(--g600);margin-top:3px}
+.r-amt-split{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.r-amount{font-size:18px;font-weight:900;color:var(--g900)}
+.split-link{font-size:12.5px;font-weight:800;color:var(--pp);cursor:pointer;text-decoration:none}
+
+.r-divider{height:1px;background:var(--g200);margin:14px 0}
+
+.action-row{display:flex;gap:10px}
+.action-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--g100);border-radius:12px;cursor:pointer;border:none;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--g600);transition:background .15s}
+.action-btn:active{background:var(--pp-soft)}
+.action-btn i{font-size:16px;color:var(--pp)}
+
+/* REF row */
+.ref-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0 0}
+.ref-label{font-size:11.5px;font-weight:600;color:var(--g400)}
+.ref-val{font-size:11.5px;font-weight:700;color:var(--g600)}
+
+/* PROMO BANNER */
+.promo-card{background:var(--pp);border-radius:16px;margin:0 14px 12px;padding:18px;overflow:hidden;position:relative;animation:slideUp .5s .1s ease both}
+.promo-card::before{content:'';position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08);top:-30px;right:-20px}
+.promo-card::after{content:'';position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.06);bottom:-20px;left:30px}
+.promo-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);border-radius:20px;padding:4px 12px;margin-bottom:10px}
+.promo-badge i{font-size:11px;color:#fff}
+.promo-badge span{font-size:11px;font-weight:700;color:#fff}
+.promo-title{font-size:18px;font-weight:900;color:#fff;line-height:1.2;margin-bottom:4px}
+.promo-sub{font-size:12.5px;font-weight:600;color:rgba(255,255,255,.8);margin-bottom:14px}
+.promo-cta{background:#fff;color:var(--pp);font-size:13px;font-weight:800;padding:9px 20px;border-radius:30px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;display:inline-flex;align-items:center;gap:6px}
+.promo-cta i{font-size:12px}
+/* Dots */
+.promo-dots{display:flex;justify-content:center;gap:6px;margin-top:14px}
+.promo-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35)}
+.promo-dot.active{background:#fff}
+
+/* DONE BTN */
+.done-wrap{padding:6px 14px 30px}
+.done-btn{width:100%;height:52px;background:transparent;border:none;font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;color:var(--pp);cursor:pointer;letter-spacing:.5px;transition:opacity .2s}
+.done-btn:active{opacity:.7}
+</style>
+</head>
+<body>
+
+<!-- GREEN HEADER -->
+<div class="green-header">
+  <div class="success-badge"><i class="fa-solid fa-check"></i></div>
+  <div class="success-title">Payments Successful</div>
+  <div class="success-date" id="headerDate">—</div>
+</div>
+
+<!-- RECEIPT CARD -->
+<div class="receipt-card">
+  <div class="receipt-user-row">
+    <div class="r-avatar" id="rAvatar">IS</div>
+    <div class="r-user-info">
+      <div class="r-name" id="rName">—</div>
+      <div class="r-upi" id="rUpi">—</div>
+      <div class="r-amt-split">
+        <div class="r-amount" id="rAmt">₹0</div>
+        <a class="split-link" href="#"><i class="fa-solid fa-scissors" style="font-size:11px;margin-right:3px"></i>Split Expense</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="r-divider"></div>
+
+  <div class="action-row">
+    <button class="action-btn" onclick="viewDetails()">
+      <i class="fa-regular fa-file-lines"></i> View Details
+    </button>
+    <button class="action-btn" onclick="shareReceipt()">
+      <i class="fa-solid fa-share-nodes"></i> Share Receipt
+    </button>
+  </div>
+
+  <div class="ref-row">
+    <span class="ref-label">UPI Ref:</span>
+    <span class="ref-val" id="rRef">—</span>
+  </div>
+</div>
+
+<!-- PROMO BANNER -->
+<div class="promo-card">
+  <div class="promo-badge"><i class="fa-solid fa-chart-line"></i><span>FREE CHECK</span></div>
+  <div class="promo-title">Know Your Credit Score Today!</div>
+  <div class="promo-sub">Check now for free. No impact on your credit score.</div>
+  <button class="promo-cta">Click Here <i class="fa-solid fa-arrow-right"></i></button>
+  <div class="promo-dots">
+    <div class="promo-dot active"></div>
+    <div class="promo-dot"></div>
+    <div class="promo-dot"></div>
+  </div>
+</div>
+
+<!-- DONE -->
+<div class="done-wrap">
+  <button class="done-btn" onclick="location.href='home.html'">Done</button>
+</div>
+
+<!-- DETAILS SHEET -->
+<div style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;opacity:0;pointer-events:none;transition:opacity .25s;display:flex;align-items:flex-end" id="detailSheet" onclick="if(event.target===this)closeDetails()">
+  <div style="width:100%;background:#fff;border-radius:22px 22px 0 0;padding:0 0 34px;transform:translateY(100%);transition:transform .32s cubic-bezier(.4,0,.2,1)" id="detailModal">
+    <div style="width:40px;height:4px;background:#e0e0e0;border-radius:4px;margin:12px auto"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px 12px;border-bottom:1px solid #f0f0f0">
+      <div style="font-size:16px;font-weight:900;color:var(--g900)">Transaction Details</div>
+      <button onclick="closeDetails()" style="width:30px;height:30px;background:#f5f5f5;border-radius:50%;border:none;cursor:pointer;font-size:14px;color:var(--g600)"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div style="padding:18px">
+      <div id="detailRows"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Fetch Custom Bank
+const customBank = localStorage.getItem('pp_custom_bank') || 'HDFC Bank · XXXX 4521';
+
+// Load from session
+const nm=sessionStorage.getItem('txn_name')||'Unknown';
+const upi=sessionStorage.getItem('txn_upi')||'—';
+const amt=sessionStorage.getItem('txn_amt')||'0';
+const dt=sessionStorage.getItem('txn_date')||new Date().toLocaleString('en-IN');
+const ref=sessionStorage.getItem('txn_ref')||'UPI'+Date.now();
+const msg=sessionStorage.getItem('txn_msg')||'';
+
+// Initials
+function initials(n){return n.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}
+
+document.getElementById('headerDate').textContent=dt;
+document.getElementById('rAvatar').textContent=initials(nm);
+document.getElementById('rName').textContent=nm;
+document.getElementById('rUpi').textContent=upi;
+document.getElementById('rAmt').textContent='₹'+Number(amt).toLocaleString('en-IN');
+document.getElementById('rRef').textContent=ref;
+
+// Detail rows
+function detailRow(label,val){
+  return `<div style="display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f5f5f5">
+    <span style="font-size:13px;color:var(--g600);font-weight:600">${label}</span>
+    <span style="font-size:13px;font-weight:800;color:var(--g900);text-align:right;max-width:60%;word-break:break-all">${val}</span>
+  </div>`;
+}
+document.getElementById('detailRows').innerHTML=
+  detailRow('Status','<span style="color:#2e7d32"><i class="fa-solid fa-circle-check" style="margin-right:4px"></i>Success</span>')+
+  detailRow('To',nm)+
+  detailRow('UPI ID',upi)+
+  detailRow('Amount','₹'+Number(amt).toLocaleString('en-IN'))+
+  (msg?detailRow('Note',msg):'')+
+  detailRow('Date & Time',dt)+
+  detailRow('UPI Ref No.',ref)+
+  detailRow('Bank', customBank); // Bank update here
+
+function viewDetails(){
+  const sheet=document.getElementById('detailSheet');
+  const modal=document.getElementById('detailModal');
+  sheet.style.opacity='1';sheet.style.pointerEvents='all';
+  modal.style.transform='translateY(0)';
+}
+function closeDetails(){
+  const sheet=document.getElementById('detailSheet');
+  const modal=document.getElementById('detailModal');
+  sheet.style.opacity='0';sheet.style.pointerEvents='none';
+  modal.style.transform='translateY(100%)';
+}
+function shareReceipt(){
+  const txt=`✅ Payment Successful!\n\nTo: ${nm}\nUPI: ${upi}\nAmount: ₹${Number(amt).toLocaleString('en-IN')}\nDate: ${dt}\nRef: ${ref}\n\n— via PhonePe`;
+  if(navigator.share){navigator.share({title:'Payment Receipt',text:txt})}
+  else if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>alert('Receipt copied to clipboard!'))}
+  else alert(txt);
+}
+</script>
+</body>
+</html>

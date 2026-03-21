@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>PhonePe – Search</title>
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- Flaticon Link from User for Bottom Nav -->
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+    --pp:#5f259f;
+    --g100:#f9f9f9;
+    --g200:#f0f2f5;
+    --g400:#b0a8c8;
+    --g600:#6b6383;
+    --g900:#1a1229;
+    --red:#e53935;
+}
+html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:#ffffff;overflow-x:hidden}
+
+/* ─── TOP HEADER ─── */
+.top-header {
+    padding: 24px 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+}
+.page-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--g900);
+    letter-spacing: 0.5px;
+}
+.help-icon {
+    width: 26px;
+    height: 26px;
+    border: 1.5px solid var(--g600);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--g600);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* ─── SEARCH BAR ─── */
+.search-container {
+    padding: 10px 20px;
+    position: relative;
+}
+.search-icon {
+    position: absolute;
+    left: 36px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+    font-size: 18px;
+}
+.search-box {
+    width: 100%;
+    height: 48px;
+    background: var(--g200);
+    border: none;
+    border-radius: 12px;
+    padding: 0 16px 0 46px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--g900);
+    outline: none;
+}
+.search-box::placeholder {
+    color: #888;
+    font-weight: 600;
+}
+
+/* ─── RECENTS SECTION ─── */
+.recents-section {
+    padding: 25px 20px 90px;
+}
+.section-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: #888;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+.recent-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    padding: 8px 0;
+}
+.recent-item:active {
+    opacity: 0.6;
+}
+/* Mimicking the HDFC square logo from your image */
+.bank-logo-box {
+    width: 38px;
+    height: 38px;
+    border: 2px solid var(--red);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--red);
+    font-size: 16px;
+    flex-shrink: 0;
+}
+.recent-info {
+    flex: 1;
+}
+.r-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--g900);
+}
+.r-sub {
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    margin-top: 2px;
+}
+
+/* ─── NEW BOTTOM NAV (FLATICON UI) ─── */
+.bottom-nav {
+    width: 100%;
+    height: 70px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #e0e0e0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #757575;
+    flex: 1;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+}
+
+.nav-item i {
+    font-size: 22px;
+    margin-bottom: 2px;
+}
+
+.nav-item span {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.nav-item.active {
+    color: #000000;
+}
+.nav-item.active span {
+    font-weight: 700;
+}
+
+.scan-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.scan-button {
+    width: 60px;
+    height: 60px;
+    background-color: #6711BE; /* Solid Purple */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    box-shadow: 0 4px 10px rgba(106, 27, 154, 0.3);
+    transform: translateY(-12px); 
+}
+
+/* Custom Image Icon */
+.scan-button .custom-qr-icon {
+    width: 28px; 
+    height: 28px;
+    object-fit: contain; 
+}
+</style>
+</head>
+<body>
+
+<!-- TOP HEADER -->
+<div class="top-header">
+    <div class="page-title">Search</div>
+    <div class="help-icon"><i class="fa-solid fa-question"></i></div>
+</div>
+
+<!-- SEARCH BAR -->
+<div class="search-container">
+    <i class="fi fi-rr-search search-icon"></i>
+    <input type="text" class="search-box" placeholder="Search for 'contacts'">
+</div>
+
+<!-- RECENTS SECTION -->
+<div class="recents-section">
+    <div class="section-label">RECENTS</div>
+    
+    <div class="recent-item">
+        <div class="bank-logo-box"><i class="fa-solid fa-building-columns"></i></div>
+        <div class="recent-info">
+            <div class="r-title" id="displayBankName">HDFC Bank</div>
+            <div class="r-sub">Bank | Add Bank Account</div>
+        </div>
+    </div>
+</div>
+
+<!-- ─── NEW BOTTOM NAV (FLATICON) ─── -->
+<nav class="bottom-nav">
+    <a class="nav-item" href="home.html">
+        <i class="fi fi-rr-house-chimney"></i>
+        <span>Home</span>
+    </a>
+
+    <!-- This tab is active now -->
+    <a class="nav-item active" href="search.html">
+        <i class="fi fi-rr-search"></i>
+        <span>Search</span>
+    </a>
+
+    <div class="scan-container" onclick="location.href='QRScan.html'">
+        <div class="scan-button">
+            <!-- Custom QR Icon Image -->
+            <img src="qr-code.png" alt="Scan QR" class="custom-qr-icon">
+        </div>
+    </div>
+
+    <!-- Removed the red dot/badge from here -->
+    <a class="nav-item" href="alerts.html">
+        <i class="fi fi-rr-bell"></i>
+        <span>Alerts</span>
+    </a>
+
+    <a class="nav-item" href="history.html">
+        <i class="fi fi-rr-time-past"></i>
+        <span>History</span>
+    </a>
+</nav>
+
+<script>
+// Fetch Bank details from localStorage (Set via managepp.html)
+window.onload = () => {
+    let customBank = localStorage.getItem('pp_custom_bank') || 'HDFC Bank';
+    
+    // Smartly extract just the bank name if account number is attached
+    // Example: If it's "State Bank of India · XXXX 1234", it extracts "State Bank of India"
+    if (customBank.includes('·')) {
+        customBank = customBank.split('·')[0].trim();
+    }
+    
+    document.getElementById('displayBankName').textContent = customBank;
+};
+</script>
+</body>
+</html>
