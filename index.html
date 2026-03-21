@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>PhonePe</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    html, body {
+        width: 100%;
+        height: 100%;
+        font-family: 'Nunito', sans-serif;
+        /* Exact PhonePe Purple Gradient */
+        background: radial-gradient(circle at center, #6c29b8 0%, #5f259f 100%);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    /* ─── LOGO ANIMATION ─── */
+    .logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: pulseLogo 2s infinite ease-in-out;
+    }
+
+    /* Agar logo.png na mile toh ye CSS wala logo dikhega */
+    .css-logo {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
+    .css-logo .phone {
+        font-size: 40px;
+        font-weight: 900;
+        color: #ffffff;
+        letter-spacing: -0.5px;
+    }
+    .css-logo .pe {
+        background: #ffffff;
+        color: #5f259f;
+        font-size: 32px;
+        font-weight: 900;
+        padding: 0px 12px;
+        border-radius: 12px;
+        margin-left: 2px;
+        line-height: 1.3;
+    }
+
+    /* Image Logo Styling */
+    .main-logo-img {
+        width: 180px; /* Aap apni image ke hisaab se bada ya chota kar sakte hain */
+        height: auto;
+        object-fit: contain;
+        display: block;
+    }
+
+    @keyframes pulseLogo {
+        0% { transform: scale(1); opacity: 0.9; }
+        50% { transform: scale(1.05); opacity: 1; }
+        100% { transform: scale(1); opacity: 0.9; }
+    }
+
+    /* ─── BOTTOM BRANDING ─── */
+    .bottom-branding {
+        position: absolute;
+        bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    /* Loading Dots */
+    .loading-dots {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 10px;
+    }
+    .loading-dots div {
+        width: 6px;
+        height: 6px;
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 50%;
+        animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .loading-dots div:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dots div:nth-child(2) { animation-delay: -0.16s; }
+    
+    @keyframes bounce {
+        0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+        40% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Trust Badge */
+    .trust-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    .trust-badge i {
+        font-size: 14px;
+        color: #4caf50; /* Green Shield */
+    }
+</style>
+</head>
+<body>
+
+    <!-- Center Logo -->
+    <div class="logo-container">
+        <!-- Image Logo (Aapko logo.png apne folder me rakhni hai) -->
+        <img src="logo.png" alt="PhonePe" class="main-logo-img" id="imgLogo" onerror="useFallback()">
+        
+        <!-- Fallback CSS Logo (Agar image nahi mili toh ye automatically dikhega) -->
+        <div class="css-logo" id="cssLogo" style="display: none;">
+            <div class="phone">Phone</div>
+            <div class="pe">Pe</div>
+        </div>
+    </div>
+
+    <!-- Bottom Loading & Security Badge -->
+    <div class="bottom-branding">
+        <div class="loading-dots">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="trust-badge">
+            <i class="fa-solid fa-shield-halved"></i> 100% SECURE
+        </div>
+    </div>
+
+    <script>
+        // Agar logo.png image load nahi hoti hai, toh automatic CSS wala text logo show kar dega
+        function useFallback() {
+            document.getElementById('imgLogo').style.display = 'none';
+            document.getElementById('cssLogo').style.display = 'flex';
+        }
+
+        // REDIRECT LOGIC: 2.5 seconds (2500ms) ke baad automatically home.html par bhej dega
+        window.onload = () => {
+            setTimeout(() => {
+                // home.html file par redirect kar dega
+                window.location.href = 'home.html';
+            }, 2500); 
+        };
+    </script>
+</body>
+</html>
