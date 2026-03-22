@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>PhonePe – Home</title>
+
+<!-- ─── PWA META TAGS START ─── -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4a0d3a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PhonePe">
+<link rel="apple-touch-icon" href="logo.png">
+<!-- ─── PWA META TAGS END ─── -->
+
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <!-- Flaticon Link from User -->
@@ -17,7 +27,7 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
 .top-banner {
     position: relative;
     width: 100%;
-    height: 35vh;
+    height: 260px;
     background-color: #4a0d3a; 
     background-image: url('topbanner.png');
     background-size: 100% 100%; 
@@ -125,25 +135,24 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
 .b-title { font-size: 13px; font-weight: 900; color: var(--g900); margin-bottom: 4px; position: relative; z-index: 2;}
 .b-sub { font-size: 10.5px; font-weight: 600; color: #888; line-height: 1.3; position: relative; z-index: 2;}
 
-/* Decorative Card Images (White Faded Issue Fixed & Size Increased) */
+/* Decorative Card Images */
 .b-decor {
     position: absolute;
     bottom: -5px; right: -5px;
     width: 80px; height: 80px;
-    opacity: 1; /* Opacity 1 kar di gayi hai taki image fully bright/colorful dikhe */
+    opacity: 1; 
     display: flex; align-items: flex-end; justify-content: flex-end;
     pointer-events: none;
 }
 .b-decor img { 
-    width: 65px; height: 65px; /* Size bada kiya gaya */
+    width: 65px; height: 65px; 
     object-fit: contain; 
     margin: 0 10px 10px 0;
 }
 
-/* For Large Cards (Recharge, Loans, Insurance) */
 .b-large .b-decor { width: 120px; height: 120px; }
 .b-large .b-decor img { 
-    width: 95px; height: 95px; /* Inka size aur bada kiya gaya */
+    width: 95px; height: 95px; 
     margin: 0 12px 12px 0;
 }
 
@@ -373,35 +382,35 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
 
 <!-- BENTO GRID (Cards) -->
 <div class="bento-grid">
-  <!-- Recharge & Bills (Large Left) -->
+  <!-- Recharge & Bills -->
   <div class="b-card b-large" onclick="openBillModal('Recharge & Bills','fa-bolt','Enter details')">
     <div class="b-title">Recharge & Bills</div>
     <div class="b-sub">Electricity, water, credit card & more</div>
     <div class="b-decor"><img src="4.png" alt="Recharge"></div>
   </div>
 
-  <!-- Travel & Stays (Small Right Top) -->
+  <!-- Travel & Stays -->
   <div class="b-card">
     <div class="b-title">Travel & Stays</div>
     <div class="b-sub">Flight, Train & Bus</div>
     <div class="b-decor"><img src="5.png" alt="Travel"></div>
   </div>
 
-  <!-- Commute (Small Right Bottom) -->
+  <!-- Commute -->
   <div class="b-card">
     <div class="b-title">Commute</div>
     <div class="b-sub">FASTag, metro, cabs</div>
     <div class="b-decor"><img src="6.png" alt="Commute"></div>
   </div>
 
-  <!-- Loans (Now Large, Left Bottom) -->
+  <!-- Loans -->
   <div class="b-card b-large">
     <div class="b-title">Loans</div>
     <div class="b-sub">Personal, bike, gold & free credit score</div>
     <div class="b-decor"><img src="7.png" alt="Loans"></div>
   </div>
 
-  <!-- Insurance (Now Large, Right Bottom) -->
+  <!-- Insurance -->
   <div class="b-card b-large">
     <div class="b-title">Insurance</div>
     <div class="b-sub">Motor, health, life, travel, shop & more</div>
@@ -423,12 +432,10 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
 
     <div class="scan-container" onclick="location.href='QRScan.html'">
         <div class="scan-button">
-            <!-- Custom QR Icon Image -->
             <img src="qr-code.png" alt="Scan QR" class="custom-qr-icon">
         </div>
     </div>
 
-    <!-- Cleaned Alerts icon (no red badge) -->
     <a class="nav-item" href="alerts.html">
         <i class="fi fi-rr-bell"></i>
         <span>Alerts</span>
@@ -440,7 +447,7 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
     </a>
 </nav>
 
-<!-- ════ MODAL: TO CONTACT ════ -->
+<!-- ════ MODALS (UNCHANGED) ════ -->
 <div class="overlay" id="contactOverlay" onclick="bgClose(event,'contactOverlay')">
  <div class="modal">
   <div class="modal-handle"></div>
@@ -500,7 +507,6 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
  </div>
 </div>
 
-<!-- ════ MODAL: TO SELF ════ -->
 <div class="overlay" id="selfOverlay" onclick="bgClose(event,'selfOverlay')">
  <div class="modal">
   <div class="modal-handle"></div>
@@ -564,7 +570,6 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
  </div>
 </div>
 
-<!-- ════ MODAL: BANK BALANCE ════ -->
 <div class="overlay" id="balOverlay" onclick="bgClose(event,'balOverlay')">
  <div class="modal">
   <div class="modal-handle"></div>
@@ -588,7 +593,6 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
  </div>
 </div>
 
-<!-- ════ MODAL: BILL PAYMENT ════ -->
 <div class="overlay" id="billOverlay" onclick="bgClose(event,'billOverlay')">
  <div class="modal">
   <div class="modal-handle"></div>
@@ -652,7 +656,6 @@ window.onload = () => {
     document.getElementById('st1_bal').textContent = formatBal;
   }
 
-  /* PROFILE PIC LOAD LOGIC */
   const savedPic = localStorage.getItem('pp_profile_pic');
   if(savedPic) {
       const img = document.getElementById('profileImg');
@@ -676,6 +679,15 @@ document.getElementById('profileInput').addEventListener('change',function(){
   };
   r.readAsDataURL(f);
 });
+
+/* ─── PWA SERVICE WORKER REGISTRATION ─── */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(registration => console.log('ServiceWorker registered:', registration.scope))
+      .catch(error => console.log('ServiceWorker registration failed:', error));
+  });
+}
 
 /* ─── MODAL CORE ─── */
 function openModal(id){document.getElementById(id).classList.add('show')}
