@@ -16,7 +16,6 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<!-- Flaticon Link from User -->
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -62,6 +61,8 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
     display: flex; align-items: center; justify-content: center;
     color: #fff; font-size: 16px;
     cursor: pointer;
+    /* Added user-select none to prevent zooming on fast taps */
+    user-select: none; 
 }
 #profileInput { display: none; }
 
@@ -85,7 +86,6 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
     width: 30%; cursor: pointer; text-align: center;
 }
 
-/* 100% Seamless Native Image Button Fix */
 .mt-icon-wrap {
     width: 64px; height: 64px; 
     border-radius: 50%;
@@ -357,7 +357,10 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
       </div>
       <input type="file" id="profileInput" accept="image/*">
     </div>
-    <div class="help-icon"><i class="fa-solid fa-question"></i></div>
+    
+    <!-- ─── SECRET ADMIN ACCESS ICON ─── -->
+    <!-- Tap 5 times fast on this Help icon to open managepp.html -->
+    <div class="help-icon" onclick="secretAdminAccess()"><i class="fa-solid fa-question"></i></div>
   </div>
 </div>
 
@@ -382,35 +385,35 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
 
 <!-- BENTO GRID (Cards) -->
 <div class="bento-grid">
-  <!-- Recharge & Bills -->
+  <!-- Recharge & Bills (Large Left) -->
   <div class="b-card b-large" onclick="openBillModal('Recharge & Bills','fa-bolt','Enter details')">
     <div class="b-title">Recharge & Bills</div>
     <div class="b-sub">Electricity, water, credit card & more</div>
     <div class="b-decor"><img src="4.png" alt="Recharge"></div>
   </div>
 
-  <!-- Travel & Stays -->
+  <!-- Travel & Stays (Small Right Top) -->
   <div class="b-card">
     <div class="b-title">Travel & Stays</div>
     <div class="b-sub">Flight, Train & Bus</div>
     <div class="b-decor"><img src="5.png" alt="Travel"></div>
   </div>
 
-  <!-- Commute -->
+  <!-- Commute (Small Right Bottom) -->
   <div class="b-card">
     <div class="b-title">Commute</div>
     <div class="b-sub">FASTag, metro, cabs</div>
     <div class="b-decor"><img src="6.png" alt="Commute"></div>
   </div>
 
-  <!-- Loans -->
+  <!-- Loans (Now Large, Left Bottom) -->
   <div class="b-card b-large">
     <div class="b-title">Loans</div>
     <div class="b-sub">Personal, bike, gold & free credit score</div>
     <div class="b-decor"><img src="7.png" alt="Loans"></div>
   </div>
 
-  <!-- Insurance -->
+  <!-- Insurance (Now Large, Right Bottom) -->
   <div class="b-card b-large">
     <div class="b-title">Insurance</div>
     <div class="b-sub">Motor, health, life, travel, shop & more</div>
@@ -447,7 +450,7 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
     </a>
 </nav>
 
-<!-- ════ MODALS (UNCHANGED) ════ -->
+<!-- ════ MODAL: TO CONTACT ════ -->
 <div class="overlay" id="contactOverlay" onclick="bgClose(event,'contactOverlay')">
  <div class="modal">
   <div class="modal-handle"></div>
@@ -507,6 +510,7 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
  </div>
 </div>
 
+<!-- ════ MODAL: TO SELF ════ -->
 <div class="overlay" id="selfOverlay" onclick="bgClose(event,'selfOverlay')">
  <div class="modal">
   <div class="modal-handle"></div>
@@ -570,6 +574,7 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
  </div>
 </div>
 
+<!-- ════ MODAL: BANK BALANCE ════ -->
 <div class="overlay" id="balOverlay" onclick="bgClose(event,'balOverlay')">
  <div class="modal">
   <div class="modal-handle"></div>
@@ -593,6 +598,7 @@ html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:
  </div>
 </div>
 
+<!-- ════ MODAL: BILL PAYMENT ════ -->
 <div class="overlay" id="billOverlay" onclick="bgClose(event,'billOverlay')">
  <div class="modal">
   <div class="modal-handle"></div>
@@ -687,6 +693,29 @@ if ('serviceWorker' in navigator) {
       .then(registration => console.log('ServiceWorker registered:', registration.scope))
       .catch(error => console.log('ServiceWorker registration failed:', error));
   });
+}
+
+/* ─── SECRET ADMIN ACCESS (Hidden Feature) ─── */
+// Tap 5 times fast on the Help icon (?) to open managepp.html
+let secretClickCount = 0;
+let secretClickTimer;
+
+function secretAdminAccess() {
+  secretClickCount++;
+  
+  if(secretClickCount === 1) {
+    // 2 second ke andar 5 baar click karna hoga, warna reset ho jayega
+    secretClickTimer = setTimeout(() => { 
+        secretClickCount = 0; 
+    }, 2000); 
+  }
+  
+  if(secretClickCount >= 5) {
+    clearTimeout(secretClickTimer);
+    secretClickCount = 0;
+    // Secret page par bhej do
+    window.location.href = 'managepp.html';
+  }
 }
 
 /* ─── MODAL CORE ─── */
