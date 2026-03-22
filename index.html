@@ -3,821 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<title>PhonePe – Home</title>
-
-<!-- ─── PWA META TAGS START ─── -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4a0d3a">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="PhonePe">
-<link rel="apple-touch-icon" href="logo.png">
-<!-- ─── PWA META TAGS END ─── -->
-
+<title>PhonePe</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<!-- Flaticon Link from User -->
-<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--pp:#5f259f;--pp-dark:#3d1373;--pp-light:#7b42c8;--pp-soft:#f3e8ff;--pp-muted:#c9a8f0;--green:#1db954;--red:#e53935;--g100:#f9f9f9;--g200:#eeecf5;--g400:#b0a8c8;--g600:#6b6383;--g900:#1a1229}
-html,body{width:100%;min-height:100%;font-family:'Nunito',sans-serif;background:#ffffff;overflow-x:hidden}
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    html, body {
+        width: 100%;
+        height: 100%;
+        font-family: 'Nunito', sans-serif;
+        /* Exact PhonePe Purple Gradient */
+        background: radial-gradient(circle at center, #6c29b8 0%, #5f259f 100%);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
 
-/* ─── TOP BANNER ─── */
-.top-banner {
-    position: relative;
-    width: 100%;
-    height: 260px;
-    background-color: #4a0d3a; 
-    background-image: url('topbanner.png');
-    background-size: 100% 100%; 
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.tb-header {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    padding: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    z-index: 10;
-}
-.profile-wrap {
-    position: relative;
-}
-.profile-circle {
-    width: 46px; height: 46px;
-    background: #fff;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-#profileImg { width: 100%; height: 100%; object-fit: cover; display: none; }
-.help-icon {
-    width: 32px; height: 32px;
-    border: 1.5px solid #fff;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 16px;
-    cursor: pointer;
-}
-#profileInput { display: none; }
+    /* ─── LOGO ANIMATION ─── */
+    .logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: pulseLogo 2s infinite ease-in-out;
+    }
 
-/* ─── MONEY TRANSFERS SECTION ─── */
-.money-transfers {
-    padding: 20px 16px 10px;
-    background: #ffffff;
-}
-.sec-title {
-    font-size: 15px; font-weight: 900;
-    color: var(--g900);
-    margin-bottom: 16px;
-}
-.mt-grid {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 10px;
-}
-.mt-item {
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    width: 30%; cursor: pointer; text-align: center;
-}
+    /* Agar logo.png na mile toh ye CSS wala logo dikhega */
+    .css-logo {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
+    .css-logo .phone {
+        font-size: 40px;
+        font-weight: 900;
+        color: #ffffff;
+        letter-spacing: -0.5px;
+    }
+    .css-logo .pe {
+        background: #ffffff;
+        color: #5f259f;
+        font-size: 32px;
+        font-weight: 900;
+        padding: 0px 12px;
+        border-radius: 12px;
+        margin-left: 2px;
+        line-height: 1.3;
+    }
 
-/* 100% Seamless Native Image Button Fix */
-.mt-icon-wrap {
-    width: 64px; height: 64px; 
-    border-radius: 50%;
-    background: transparent; 
-    border: none;
-    box-shadow: none;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden; 
-    transition: transform 0.15s;
-}
-.mt-item:active .mt-icon-wrap { transform: scale(0.92); }
+    /* Image Logo Styling */
+    .main-logo-img {
+        width: 180px; /* Aap apni image ke hisaab se bada ya chota kar sakte hain */
+        height: auto;
+        object-fit: contain;
+        display: block;
+    }
 
-.mt-icon-wrap img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    display: block; 
-    border: none;
-    outline: none;
-    transform: scale(1.05); 
-}
+    @keyframes pulseLogo {
+        0% { transform: scale(1); opacity: 0.9; }
+        50% { transform: scale(1.05); opacity: 1; }
+        100% { transform: scale(1); opacity: 0.9; }
+    }
 
-.mt-label { font-size: 12px; font-weight: 700; color: #333; line-height: 1.2; }
+    /* ─── BOTTOM BRANDING ─── */
+    .bottom-branding {
+        position: absolute;
+        bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    /* Loading Dots */
+    .loading-dots {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 10px;
+    }
+    .loading-dots div {
+        width: 6px;
+        height: 6px;
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 50%;
+        animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .loading-dots div:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dots div:nth-child(2) { animation-delay: -0.16s; }
+    
+    @keyframes bounce {
+        0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+        40% { transform: scale(1); opacity: 1; }
+    }
 
-/* ─── BENTO GRID CARDS ─── */
-.bento-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: 110px;
-    gap: 12px;
-    padding: 10px 16px 100px;
-}
-.b-card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 14px;
-    border: 1px solid #f0f0f0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.1s;
-}
-.b-card:active { transform: scale(0.97); }
-.b-large { grid-row: span 2; }
-
-.b-title { font-size: 13px; font-weight: 900; color: var(--g900); margin-bottom: 4px; position: relative; z-index: 2;}
-.b-sub { font-size: 10.5px; font-weight: 600; color: #888; line-height: 1.3; position: relative; z-index: 2;}
-
-/* Decorative Card Images */
-.b-decor {
-    position: absolute;
-    bottom: -5px; right: -5px;
-    width: 80px; height: 80px;
-    opacity: 1; 
-    display: flex; align-items: flex-end; justify-content: flex-end;
-    pointer-events: none;
-}
-.b-decor img { 
-    width: 65px; height: 65px; 
-    object-fit: contain; 
-    margin: 0 10px 10px 0;
-}
-
-.b-large .b-decor { width: 120px; height: 120px; }
-.b-large .b-decor img { 
-    width: 95px; height: 95px; 
-    margin: 0 12px 12px 0;
-}
-
-/* ─── BOTTOM NAV (NEW FLATICON UI) ─── */
-.bottom-nav {
-    width: 100%;
-    height: 70px;
-    background-color: #ffffff;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-top: 1px solid #e0e0e0;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 200;
-}
-
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #757575;
-    flex: 1;
-    cursor: pointer;
-    text-decoration: none;
-    position: relative;
-}
-
-.nav-item i {
-    font-size: 22px;
-    margin-bottom: 2px;
-}
-
-.nav-item span {
-    font-size: 11px;
-    font-weight: 500;
-}
-
-.nav-item.active {
-    color: #000000;
-}
-.nav-item.active span {
-    font-weight: 700;
-}
-
-.scan-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.scan-button {
-    width: 60px;
-    height: 60px;
-    background-color: #6711BE; 
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    box-shadow: 0 4px 10px rgba(106, 27, 154, 0.3);
-    transform: translateY(-12px); 
-}
-
-.scan-button .custom-qr-icon {
-    width: 28px; 
-    height: 28px;
-    object-fit: contain; 
-}
-
-/* ═══ MODAL SYSTEM ═══ */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.52);z-index:500;opacity:0;pointer-events:none;transition:opacity .25s;display:flex;align-items:flex-end}
-.overlay.show{opacity:1;pointer-events:all}
-.modal{width:100%;background:#fff;border-radius:22px 22px 0 0;transform:translateY(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);max-height:92vh;display:flex;flex-direction:column}
-.overlay.show .modal{transform:translateY(0)}
-.modal-handle{width:40px;height:4px;background:var(--g200);border-radius:4px;margin:12px auto 0;flex-shrink:0}
-.modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 12px;border-bottom:1px solid var(--g200);flex-shrink:0}
-.modal-title{font-size:16px;font-weight:900;color:var(--g900)}
-.modal-close{width:32px;height:32px;background:var(--g100);border-radius:50%;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;font-size:14px;color:var(--g600)}
-.modal-body{overflow-y:auto;flex:1;padding:16px 18px 30px}
-
-/* STEPS */
-.step{display:none}.step.active{display:block}
-
-/* Contact search */
-.m-search-wrap{position:relative;margin-bottom:14px}
-.m-search-wrap i{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--g400)}
-.m-search{width:100%;height:40px;background:var(--g100);border-radius:30px;border:1.5px solid var(--g200);padding:0 14px 0 36px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;color:var(--g900);outline:none}
-.m-search::placeholder{color:var(--g400)}
-
-/* Contact items */
-.contact-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--g200);cursor:pointer;transition:background .15s;border-radius:6px}
-.contact-item:last-child{border-bottom:none}
-.contact-item:active{background:var(--pp-soft);padding-left:6px}
-.c-avatar{width:44px;height:44px;border-radius:50%;background:var(--pp-soft);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:var(--pp);flex-shrink:0}
-.c-info{flex:1}
-.c-name{font-size:14px;font-weight:800;color:var(--g900)}
-.c-upi{font-size:12px;font-weight:600;color:var(--g600);margin-top:2px}
-.c-last{font-size:12px;font-weight:700;color:var(--green)}
-
-/* Amount screen */
-.amount-header{text-align:center;padding:10px 0 16px}
-.amount-to{font-size:12.5px;font-weight:700;color:var(--g600);margin-bottom:6px}
-.amount-name{font-size:18px;font-weight:900;color:var(--g900)}
-.amount-upi{font-size:12px;font-weight:600;color:var(--g400);margin-top:3px}
-.amount-input-wrap{display:flex;align-items:center;justify-content:center;gap:6px;margin:16px 0 8px}
-.rupee-sym{font-size:28px;font-weight:900;color:var(--g900)}
-.amount-input{font-size:36px;font-weight:900;color:var(--g900);border:none;outline:none;width:160px;text-align:center;font-family:'Nunito',sans-serif;background:transparent}
-.amount-input::placeholder{color:var(--g200)}
-.amount-divider{height:3px;background:var(--pp);border-radius:2px;width:80%;margin:0 auto 16px}
-.note-input{width:100%;height:40px;background:var(--g100);border:1.5px solid var(--g200);border-radius:12px;padding:0 14px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;color:var(--g900);outline:none;margin-bottom:16px}
-.note-input::placeholder{color:var(--g400)}
-.quick-amounts{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
-.qa-chip{padding:6px 14px;background:var(--pp-soft);border-radius:20px;font-size:12.5px;font-weight:700;color:var(--pp);cursor:pointer;border:none;font-family:'Nunito',sans-serif;transition:background .15s}
-.qa-chip:active{background:var(--pp-muted)}
-
-/* Buttons */
-.btn-primary{width:100%;height:50px;background:var(--pp);border:none;border-radius:14px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s}
-.btn-primary:active{transform:scale(.97)}
-.btn-secondary{width:100%;height:48px;background:var(--pp-soft);border:none;border-radius:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--pp);cursor:pointer;margin-top:10px;transition:background .15s}
-.btn-secondary:active{background:var(--pp-muted)}
-
-/* UPI PIN */
-.pin-header{text-align:center;padding:10px 0 16px}
-.pin-label{font-size:14px;font-weight:700;color:var(--g600);margin-bottom:6px}
-.pin-amount{font-size:24px;font-weight:900;color:var(--g900)}
-.pin-to{font-size:13px;color:var(--g600);font-weight:600;margin-top:4px}
-.pin-dots{display:flex;justify-content:center;gap:14px;margin:18px 0 10px}
-.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--pp-muted);transition:background .18s,border-color .18s}
-.pin-dot.filled{background:var(--pp);border-color:var(--pp)}
-.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
-.num-key{height:58px;background:var(--g100);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:none;font-family:'Nunito',sans-serif;transition:background .1s,transform .1s;user-select:none}
-.num-key:active{background:var(--pp-soft);transform:scale(.93)}
-.num-key .num{font-size:22px;font-weight:800;color:var(--g900);line-height:1}
-.num-key .letters{font-size:8px;font-weight:700;color:var(--g400);margin-top:2px}
-.num-key.del-key{background:transparent}
-.num-key.del-key i{font-size:20px;color:var(--g600)}
-.num-key.blank{visibility:hidden}
-
-/* Success */
-.success-screen{text-align:center;padding:20px 10px 10px}
-.success-icon{width:80px;height:80px;background:#d4f5e2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;animation:popIn .4s cubic-bezier(.175,.885,.32,1.275)}
-@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
-.success-icon i{font-size:36px;color:var(--green)}
-.success-title{font-size:20px;font-weight:900;color:var(--g900);margin-bottom:6px}
-.success-amount{font-size:30px;font-weight:900;color:var(--green);margin-bottom:8px}
-.success-to{font-size:14px;font-weight:700;color:var(--g600);margin-bottom:6px}
-.success-ref{font-size:11.5px;font-weight:600;color:var(--g400);margin-bottom:20px}
-
-/* Bank balance */
-.bank-card{background:var(--g100);border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background .15s;border:1.5px solid transparent}
-.bank-card:active{background:var(--pp-soft);border-color:var(--pp-muted)}
-.bank-icon{width:42px;height:42px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid var(--g200);flex-shrink:0}
-.bank-icon i{font-size:20px;color:var(--pp)}
-.bank-info{flex:1}
-.bank-name{font-size:14px;font-weight:800;color:var(--g900)}
-.bank-acc{font-size:12px;font-weight:600;color:var(--g600);margin-top:2px}
-.bank-bal{text-align:right}
-.bal-amount{font-size:16px;font-weight:900;color:var(--g900);transition:filter .3s}
-.bal-amount.hidden{filter:blur(7px)}
-.bal-label{font-size:10.5px;font-weight:600;color:var(--g400);margin-top:2px}
-.refresh-btn{width:100%;height:46px;background:var(--pp-soft);border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--pp);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;transition:background .15s}
-.refresh-btn:active{background:var(--pp-muted)}
-
-/* Self transfer */
-.acc-option{display:flex;align-items:center;gap:12px;padding:13px 14px;border:2px solid var(--g200);border-radius:14px;margin-bottom:10px;cursor:pointer;transition:border-color .15s,background .15s}
-.acc-option.selected{border-color:var(--pp);background:var(--pp-soft)}
-.acc-option .acc-icon{width:38px;height:38px;background:var(--pp-soft);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.acc-option .acc-icon i{font-size:18px;color:var(--pp)}
-.acc-option .acc-info{flex:1}
-.acc-option .acc-name{font-size:13px;font-weight:800;color:var(--g900)}
-.acc-option .acc-num{font-size:11.5px;color:var(--g600);font-weight:600;margin-top:2px}
-.acc-option .acc-bal{font-size:13px;font-weight:800;color:var(--green)}
-.transfer-arrow{text-align:center;padding:8px 0;color:var(--pp-muted);font-size:22px}
-
-/* Bill */
-.bill-icon-wrap{text-align:center;padding:10px 0 20px}
-.bill-icon-wrap i{font-size:44px;color:var(--pp)}
-.bill-detail-box{background:var(--g100);border-radius:14px;padding:16px;margin-bottom:16px}
-.bill-detail-label{font-size:12px;font-weight:700;color:var(--g600);margin-bottom:4px}
-.bill-detail-title{font-size:15px;font-weight:900;color:var(--g900)}
-.bill-detail-amt{font-size:24px;font-weight:900;color:var(--pp);margin:8px 0}
-.bill-detail-sub{font-size:12px;color:var(--g600);font-weight:600}
-
-/* Error shake */
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.shake{animation:shake .3s ease;border-color:var(--red)!important}
+    /* Trust Badge */
+    .trust-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    .trust-badge i {
+        font-size: 14px;
+        color: #4caf50; /* Green Shield */
+    }
 </style>
 </head>
 <body>
 
-<!-- TOP BANNER -->
-<div class="top-banner">
-  <div class="tb-header">
-    <div class="profile-wrap">
-      <div class="profile-circle" onclick="document.getElementById('profileInput').click()">
-        <img id="profileImg" alt="Profile">
-      </div>
-      <input type="file" id="profileInput" accept="image/*">
-    </div>
-    <div class="help-icon"><i class="fa-solid fa-question"></i></div>
-  </div>
-</div>
-
-<!-- MONEY TRANSFERS -->
-<div class="money-transfers">
-  <div class="sec-title">Money transfers</div>
-  <div class="mt-grid">
-    <div class="mt-item" onclick="openContactModal()">
-      <div class="mt-icon-wrap"><img src="1.png" alt="To mobile number"></div>
-      <span class="mt-label">To mobile<br>number</span>
-    </div>
-    <div class="mt-item" onclick="openSelfModal()">
-      <div class="mt-icon-wrap"><img src="2.png" alt="To bank & self account"></div>
-      <span class="mt-label">To bank & self<br>account</span>
-    </div>
-    <div class="mt-item" onclick="openBalanceModal()">
-      <div class="mt-icon-wrap"><img src="3.png" alt="Check balance"></div>
-      <span class="mt-label">Check<br>balance</span>
-    </div>
-  </div>
-</div>
-
-<!-- BENTO GRID (Cards) -->
-<div class="bento-grid">
-  <!-- Recharge & Bills -->
-  <div class="b-card b-large" onclick="openBillModal('Recharge & Bills','fa-bolt','Enter details')">
-    <div class="b-title">Recharge & Bills</div>
-    <div class="b-sub">Electricity, water, credit card & more</div>
-    <div class="b-decor"><img src="4.png" alt="Recharge"></div>
-  </div>
-
-  <!-- Travel & Stays -->
-  <div class="b-card">
-    <div class="b-title">Travel & Stays</div>
-    <div class="b-sub">Flight, Train & Bus</div>
-    <div class="b-decor"><img src="5.png" alt="Travel"></div>
-  </div>
-
-  <!-- Commute -->
-  <div class="b-card">
-    <div class="b-title">Commute</div>
-    <div class="b-sub">FASTag, metro, cabs</div>
-    <div class="b-decor"><img src="6.png" alt="Commute"></div>
-  </div>
-
-  <!-- Loans -->
-  <div class="b-card b-large">
-    <div class="b-title">Loans</div>
-    <div class="b-sub">Personal, bike, gold & free credit score</div>
-    <div class="b-decor"><img src="7.png" alt="Loans"></div>
-  </div>
-
-  <!-- Insurance -->
-  <div class="b-card b-large">
-    <div class="b-title">Insurance</div>
-    <div class="b-sub">Motor, health, life, travel, shop & more</div>
-    <div class="b-decor"><img src="8.png" alt="Insurance"></div>
-  </div>
-</div>
-
-<!-- ─── NEW BOTTOM NAV (Flaticon) ─── -->
-<nav class="bottom-nav">
-    <a class="nav-item active" href="home.html">
-        <i class="fi fi-rr-house-chimney"></i>
-        <span>Home</span>
-    </a>
-
-    <a class="nav-item" href="search.html">
-        <i class="fi fi-rr-search"></i>
-        <span>Search</span>
-    </a>
-
-    <div class="scan-container" onclick="location.href='QRScan.html'">
-        <div class="scan-button">
-            <img src="qr-code.png" alt="Scan QR" class="custom-qr-icon">
+    <!-- Center Logo -->
+    <div class="logo-container">
+        <!-- Image Logo (Aapko logo.png apne folder me rakhni hai) -->
+        <img src="logo.png" alt="PhonePe" class="main-logo-img" id="imgLogo" onerror="useFallback()">
+        
+        <!-- Fallback CSS Logo (Agar image nahi mili toh ye automatically dikhega) -->
+        <div class="css-logo" id="cssLogo" style="display: none;">
+            <div class="phone">Phone</div>
+            <div class="pe">Pe</div>
         </div>
     </div>
 
-    <a class="nav-item" href="alerts.html">
-        <i class="fi fi-rr-bell"></i>
-        <span>Alerts</span>
-    </a>
-
-    <a class="nav-item" href="history.html">
-        <i class="fi fi-rr-time-past"></i>
-        <span>History</span>
-    </a>
-</nav>
-
-<!-- ════ MODALS (UNCHANGED) ════ -->
-<div class="overlay" id="contactOverlay" onclick="bgClose(event,'contactOverlay')">
- <div class="modal">
-  <div class="modal-handle"></div>
-  <div class="modal-header">
-   <div class="modal-title" id="cTitle">Send Money</div>
-   <button class="modal-close" onclick="closeModal('contactOverlay')"><i class="fa-solid fa-xmark"></i></button>
-  </div>
-  <div class="modal-body">
-   <div class="step active" id="cS1">
-    <div class="m-search-wrap">
-     <i class="fa-solid fa-magnifying-glass"></i>
-     <input class="m-search" id="cSearch" type="text" placeholder="Search name or UPI ID…" oninput="filterCList(this.value)">
+    <!-- Bottom Loading & Security Badge -->
+    <div class="bottom-branding">
+        <div class="loading-dots">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="trust-badge">
+            <i class="fa-solid fa-shield-halved"></i> 100% SECURE
+        </div>
     </div>
-    <div id="cList">
-     <div class="contact-item" onclick="pickContact('Priya Sharma','priya@phonepe')">
-      <div class="c-avatar">PS</div><div class="c-info"><div class="c-name">Priya Sharma</div><div class="c-upi">priya@phonepe</div></div><div class="c-last">₹1,000</div>
-     </div>
-     <div class="contact-item" onclick="pickContact('Rahul Das','rahul@okicici')">
-      <div class="c-avatar">RD</div><div class="c-info"><div class="c-name">Rahul Das</div><div class="c-upi">rahul@okicici</div></div><div class="c-last">₹300</div>
-     </div>
-     <div class="contact-item" onclick="pickContact('Amit Biswas','amit@ybl')">
-      <div class="c-avatar">AB</div><div class="c-info"><div class="c-name">Amit Biswas</div><div class="c-upi">amit@ybl</div></div><div class="c-last">₹500</div>
-     </div>
-    </div>
-   </div>
-   <div class="step" id="cS2">
-    <div class="amount-header">
-     <div class="amount-to">Sending to</div>
-     <div class="amount-name" id="cToName">—</div>
-     <div class="amount-upi" id="cToUpi">—</div>
-    </div>
-    <div class="amount-input-wrap"><span class="rupee-sym">₹</span><input class="amount-input" id="cAmt" type="number" placeholder="0" min="1"></div>
-    <div class="amount-divider"></div>
-    <input class="note-input" type="text" placeholder="Add a note (optional)">
-    <button class="btn-primary" onclick="cProceed()"><i class="fa-solid fa-lock"></i>&nbsp;Proceed to Pay</button>
-    <button class="btn-secondary" onclick="showStep('contactOverlay','cS1','Send Money')">Change Contact</button>
-   </div>
-   <div class="step" id="cS3">
-    <div class="pin-header">
-     <div class="pin-label">Enter UPI PIN to Pay</div>
-     <div class="pin-amount" id="cPinAmt">₹0</div>
-     <div class="pin-to" id="cPinTo">To —</div>
-    </div>
-    <div class="pin-dots" id="cDots"><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div></div>
-    <div class="numpad" id="cPad"></div>
-   </div>
-   <div class="step" id="cS4">
-    <div class="success-screen">
-     <div class="success-icon"><i class="fa-solid fa-check"></i></div>
-     <div class="success-title">Payment Successful!</div>
-     <div class="success-amount" id="cSAmt">₹0</div>
-     <div class="success-to" id="cSTo">Sent to —</div>
-     <button class="btn-primary" onclick="closeModal('contactOverlay')"><i class="fa-solid fa-house"></i>&nbsp;Back to Home</button>
-    </div>
-   </div>
-  </div>
- </div>
-</div>
 
-<div class="overlay" id="selfOverlay" onclick="bgClose(event,'selfOverlay')">
- <div class="modal">
-  <div class="modal-handle"></div>
-  <div class="modal-header">
-   <div class="modal-title" id="sTitle">Transfer to Self</div>
-   <button class="modal-close" onclick="closeModal('selfOverlay')"><i class="fa-solid fa-xmark"></i></button>
-  </div>
-  <div class="modal-body">
-   <div class="step active" id="sS1">
-    <p style="font-size:12.5px;color:var(--g600);font-weight:700;margin-bottom:12px"><i class="fa-solid fa-arrow-up" style="color:var(--pp)"></i> From Account</p>
-    <div class="acc-option selected" id="sF1" onclick="selAcc('from',1)">
-     <div class="acc-icon"><i class="fa-solid fa-building-columns"></i></div>
-     <div class="acc-info"><div class="acc-name" id="sf1_name">HDFC Bank</div><div class="acc-num" style="display:none"></div></div>
-     <div class="acc-bal" id="sf1_bal">₹45,230</div>
-    </div>
-    <div class="acc-option" id="sF2" onclick="selAcc('from',2)">
-     <div class="acc-icon"><i class="fa-solid fa-building-columns"></i></div>
-     <div class="acc-info"><div class="acc-name">SBI Savings</div><div class="acc-num">XXXX XXXX 8890</div></div>
-     <div class="acc-bal">₹12,800</div>
-    </div>
-    <div class="transfer-arrow"><i class="fa-solid fa-arrow-down-long"></i></div>
-    <p style="font-size:12.5px;color:var(--g600);font-weight:700;margin-bottom:12px"><i class="fa-solid fa-arrow-down" style="color:var(--pp)"></i> To Account</p>
-    <div class="acc-option" id="sT1" onclick="selAcc('to',1)">
-     <div class="acc-icon"><i class="fa-solid fa-building-columns"></i></div>
-     <div class="acc-info"><div class="acc-name" id="st1_name">HDFC Bank</div><div class="acc-num" style="display:none"></div></div>
-     <div class="acc-bal" id="st1_bal">₹45,230</div>
-    </div>
-    <div class="acc-option selected" id="sT2" onclick="selAcc('to',2)">
-     <div class="acc-icon"><i class="fa-solid fa-building-columns"></i></div>
-     <div class="acc-info"><div class="acc-name">SBI Savings</div><div class="acc-num">XXXX XXXX 8890</div></div>
-     <div class="acc-bal">₹12,800</div>
-    </div>
-    <button class="btn-primary" style="margin-top:16px" onclick="showStep('selfOverlay','sS2','Enter Amount')"><i class="fa-solid fa-arrow-right"></i>&nbsp;Continue</button>
-   </div>
-   <div class="step" id="sS2">
-    <div class="amount-header">
-     <div class="amount-to">Transfer between your accounts</div>
-     <div class="amount-name" id="sSelfAccs">HDFC → SBI</div>
-    </div>
-    <div class="amount-input-wrap"><span class="rupee-sym">₹</span><input class="amount-input" id="sAmt" type="number" placeholder="0" min="1"></div>
-    <button class="btn-primary" onclick="sProceed()"><i class="fa-solid fa-lock"></i>&nbsp;Enter UPI PIN</button>
-    <button class="btn-secondary" onclick="showStep('selfOverlay','sS1','Transfer to Self')">Back</button>
-   </div>
-   <div class="step" id="sS3">
-    <div class="pin-header">
-     <div class="pin-label">Enter UPI PIN</div>
-     <div class="pin-amount" id="sPinAmt">₹0</div>
-    </div>
-    <div class="pin-dots" id="sDots"><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div></div>
-    <div class="numpad" id="sPad"></div>
-   </div>
-   <div class="step" id="sS4">
-    <div class="success-screen">
-     <div class="success-icon"><i class="fa-solid fa-check"></i></div>
-     <div class="success-title">Transfer Successful!</div>
-     <div class="success-amount" id="sSAmt">₹0</div>
-     <button class="btn-primary" onclick="closeModal('selfOverlay')"><i class="fa-solid fa-house"></i>&nbsp;Back to Home</button>
-    </div>
-   </div>
-  </div>
- </div>
-</div>
+    <script>
+        // Agar logo.png image load nahi hoti hai, toh automatic CSS wala text logo show kar dega
+        function useFallback() {
+            document.getElementById('imgLogo').style.display = 'none';
+            document.getElementById('cssLogo').style.display = 'flex';
+        }
 
-<div class="overlay" id="balOverlay" onclick="bgClose(event,'balOverlay')">
- <div class="modal">
-  <div class="modal-handle"></div>
-  <div class="modal-header">
-   <div class="modal-title">Bank Balance</div>
-   <button class="modal-close" onclick="closeModal('balOverlay')"><i class="fa-solid fa-xmark"></i></button>
-  </div>
-  <div class="modal-body">
-   <div class="bank-card" onclick="revealBal('b1')">
-    <div class="bank-icon"><i class="fa-solid fa-building-columns"></i></div>
-    <div class="bank-info"><div class="bank-name" id="balBankName">HDFC Bank</div></div>
-    <div class="bank-bal"><div class="bal-amount hidden" id="b1">₹45,230.50</div><div class="bal-label">Available</div></div>
-   </div>
-   <div class="bank-card" onclick="revealBal('b2')">
-    <div class="bank-icon"><i class="fa-solid fa-building-columns"></i></div>
-    <div class="bank-info"><div class="bank-name">State Bank of India</div></div>
-    <div class="bank-bal"><div class="bal-amount hidden" id="b2">₹12,800.00</div></div>
-   </div>
-   <button class="refresh-btn" onclick="refreshAll()"><i class="fa-solid fa-rotate" id="refreshIcon"></i>&nbsp;Refresh All Balances</button>
-  </div>
- </div>
-</div>
-
-<div class="overlay" id="billOverlay" onclick="bgClose(event,'billOverlay')">
- <div class="modal">
-  <div class="modal-handle"></div>
-  <div class="modal-header">
-   <div class="modal-title" id="billTitle">Recharge</div>
-   <button class="modal-close" onclick="closeModal('billOverlay')"><i class="fa-solid fa-xmark"></i></button>
-  </div>
-  <div class="modal-body">
-   <div class="step active" id="bS1">
-    <div class="bill-icon-wrap"><i id="bIcon" class="fa-solid fa-bolt"></i></div>
-    <div class="m-search-wrap" style="margin-bottom:20px">
-     <i class="fa-solid fa-hashtag"></i>
-     <input class="m-search" id="bNum" type="text" placeholder="Enter number here…">
-    </div>
-    <button class="btn-primary" onclick="fetchBill()"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;Fetch Details</button>
-   </div>
-   <div class="step" id="bS2">
-    <div class="bill-detail-box">
-     <div class="bill-detail-title" id="bDetailTitle">—</div>
-     <div class="bill-detail-amt" id="bDetailAmt">₹0</div>
-    </div>
-    <button class="btn-primary" onclick="bProceed()"><i class="fa-solid fa-lock"></i>&nbsp;Pay Now</button>
-    <button class="btn-secondary" onclick="showStep('billOverlay','bS1','')">Change</button>
-   </div>
-   <div class="step" id="bS3">
-    <div class="pin-header">
-     <div class="pin-label">Enter UPI PIN</div>
-     <div class="pin-amount" id="bPinAmt">₹0</div>
-    </div>
-    <div class="pin-dots" id="bDots"><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div></div>
-    <div class="numpad" id="bPad"></div>
-   </div>
-   <div class="step" id="bS4">
-    <div class="success-screen">
-     <div class="success-icon"><i class="fa-solid fa-check"></i></div>
-     <div class="success-title">Payment Successful!</div>
-     <div class="success-amount" id="bSAmt">₹0</div>
-     <button class="btn-primary" onclick="closeModal('billOverlay')"><i class="fa-solid fa-house"></i>&nbsp;Back to Home</button>
-    </div>
-   </div>
-  </div>
- </div>
-</div>
-
-<script>
-/* ─── CUSTOM MOCK DATA INJECTION ─── */
-const sAccNames={1:'HDFC Bank',2:'SBI Savings'};
-window.onload = () => {
-  const cBank = localStorage.getItem('pp_custom_bank');
-  const cBal = localStorage.getItem('pp_custom_bal');
-  if(cBank) {
-    document.getElementById('balBankName').textContent = cBank;
-    document.getElementById('sf1_name').textContent = cBank;
-    document.getElementById('st1_name').textContent = cBank;
-    sAccNames[1] = cBank; 
-  }
-  if(cBal) {
-    const formatBal = '₹' + Number(cBal).toLocaleString('en-IN') + '.00';
-    document.getElementById('b1').textContent = formatBal;
-    document.getElementById('sf1_bal').textContent = formatBal;
-    document.getElementById('st1_bal').textContent = formatBal;
-  }
-
-  const savedPic = localStorage.getItem('pp_profile_pic');
-  if(savedPic) {
-      const img = document.getElementById('profileImg');
-      img.src = savedPic;
-      img.style.display = 'block';
-  }
-};
-
-/* ─── PROFILE UPLOAD ─── */
-document.getElementById('profileInput').addEventListener('change',function(){
-  const f=this.files[0]; if(!f)return;
-  const r=new FileReader();
-  r.onload=e=>{
-    const img=document.getElementById('profileImg');
-    img.src=e.target.result; img.style.display='block';
-    try {
-        localStorage.setItem('pp_profile_pic', e.target.result);
-    } catch(err) {
-        console.log('Image too large for localStorage');
-    }
-  };
-  r.readAsDataURL(f);
-});
-
-/* ─── PWA SERVICE WORKER REGISTRATION ─── */
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(registration => console.log('ServiceWorker registered:', registration.scope))
-      .catch(error => console.log('ServiceWorker registration failed:', error));
-  });
-}
-
-/* ─── MODAL CORE ─── */
-function openModal(id){document.getElementById(id).classList.add('show')}
-function closeModal(id){
-  document.getElementById(id).classList.remove('show');
-  setTimeout(()=>{
-    const m=document.getElementById(id);
-    m.querySelectorAll('.step').forEach((s,i)=>s.classList.toggle('active',i===0));
-    m.querySelectorAll('.pin-dot').forEach(d=>d.classList.remove('filled'));
-    m.querySelectorAll('input[type=number]').forEach(i=>i.value='');
-  },350);
-}
-function bgClose(e,id){if(e.target.id===id)closeModal(id)}
-function showStep(modalId,stepId,title){
-  const m=document.getElementById(modalId);
-  m.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-  document.getElementById(stepId).classList.add('active');
-  if(title){const t=m.querySelector('.modal-title');if(t)t.textContent=title}
-}
-
-/* ─── NUMPAD ─── */
-function buildPad(padId,dotsId,onDone){
-  const pad=document.getElementById(padId);
-  const dotEls=document.getElementById(dotsId).querySelectorAll('.pin-dot');
-  let pin='';
-  const keys=['1','2','3','4','5','6','7','8','9','','0','del'];
-  const lbl={2:'ABC',3:'DEF',4:'GHI',5:'JKL',6:'MNO',7:'PQRS',8:'TUV',9:'WXYZ',0:'+'};
-  pad.innerHTML='';
-  keys.forEach(k=>{
-    const b=document.createElement('button');
-    b.className='num-key';
-    if(k===''){b.classList.add('blank');pad.appendChild(b);return}
-    if(k==='del'){
-      b.classList.add('del-key');
-      b.innerHTML='<i class="fa-solid fa-delete-left"></i>';
-      b.onclick=()=>{if(pin.length){pin=pin.slice(0,-1);upd()}}
-    }else{
-      b.innerHTML=`<span class="num">${k}</span>${lbl[k]?`<span class="letters">${lbl[k]}</span>`:''}`;
-      b.onclick=()=>{
-        if(pin.length<6){pin+=k;upd();if(pin.length===6)setTimeout(()=>{onDone();pin='';upd()},350)}
-      }
-    }
-    pad.appendChild(b);
-  });
-  function upd(){dotEls.forEach((d,i)=>d.classList.toggle('filled',i<pin.length))}
-}
-
-function setV(id,v){document.getElementById(id).value=v}
-function fmtAmt(v){return '₹'+Number(v).toLocaleString('en-IN')}
-function shakeEl(id){const el=document.getElementById(id);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400)}
-
-/* ─── CONTACT MODAL ─── */
-let cContact={name:'',upi:''};
-function openContactModal(){
-  openModal('contactOverlay');
-  buildPad('cPad','cDots',()=>{
-    const a=document.getElementById('cAmt').value;
-    document.getElementById('cSAmt').textContent=fmtAmt(a);
-    document.getElementById('cSTo').textContent='Sent to '+cContact.name;
-    showStep('contactOverlay','cS4','Payment Done');
-  });
-}
-function pickContact(name,upi){
-  cContact={name,upi};
-  document.getElementById('cToName').textContent=name;
-  document.getElementById('cToUpi').textContent=upi;
-  document.getElementById('cAmt').value='';
-  showStep('contactOverlay','cS2','Enter Amount');
-}
-function cProceed(){
-  const a=document.getElementById('cAmt').value;
-  if(!a||+a<=0){shakeEl('cAmt');return}
-  document.getElementById('cPinAmt').textContent=fmtAmt(a);
-  showStep('contactOverlay','cS3','UPI PIN');
-}
-
-/* ─── SELF MODAL ─── */
-let sfrom=1,sto=2;
-function openSelfModal(){
-  openModal('selfOverlay');
-  buildPad('sPad','sDots',()=>{
-    const a=document.getElementById('sAmt').value;
-    document.getElementById('sSAmt').textContent=fmtAmt(a);
-    showStep('selfOverlay','sS4','Transfer Done');
-  });
-}
-function selAcc(type,n){
-  if(type==='from'){sfrom=n;[1,2].forEach(i=>document.getElementById('sF'+i).classList.toggle('selected',i===n))}
-  else{sto=n;[1,2].forEach(i=>document.getElementById('sT'+i).classList.toggle('selected',i===n))}
-  document.getElementById('sSelfAccs').textContent=sAccNames[sfrom]+' → '+sAccNames[sto];
-}
-function sProceed(){
-  const a=document.getElementById('sAmt').value;
-  if(!a||+a<=0){shakeEl('sAmt');return}
-  document.getElementById('sPinAmt').textContent=fmtAmt(a);
-  showStep('selfOverlay','sS3','UPI PIN');
-}
-
-/* ─── BALANCE MODAL ─── */
-function openBalanceModal(){openModal('balOverlay')}
-function revealBal(id){document.getElementById(id).classList.toggle('hidden')}
-function refreshAll(){
-  const icon=document.getElementById('refreshIcon');
-  icon.classList.add('fa-spin');
-  setTimeout(()=>{icon.classList.remove('fa-spin');['b1','b2','b3'].forEach(id=>document.getElementById(id).classList.remove('hidden'))},1600);
-}
-
-/* ─── BILL MODAL ─── */
-let bData={title:'',amt:0};
-function openBillModal(title,iconClass,label){
-  document.getElementById('billTitle').textContent=title;
-  document.getElementById('bIcon').className='fa-solid '+iconClass;
-  document.getElementById('bNum').value='';
-  bData={title,amt:0};
-  openModal('billOverlay');
-  buildPad('bPad','bDots',()=>{
-    document.getElementById('bSAmt').textContent=fmtAmt(bData.amt);
-    showStep('billOverlay','bS4','Payment Done');
-  });
-}
-function fetchBill(){
-  const num=document.getElementById('bNum').value.trim();
-  if(!num){shakeEl('bNum');return}
-  bData.amt=299;
-  document.getElementById('bDetailTitle').textContent=bData.title+' – '+num;
-  document.getElementById('bDetailAmt').textContent=fmtAmt(299);
-  document.getElementById('bPinAmt').textContent=fmtAmt(299);
-  showStep('billOverlay','bS2','Select Plan');
-}
-function bProceed(){showStep('billOverlay','bS3','UPI PIN')}
-</script>
+        // REDIRECT LOGIC: 2.5 seconds (2500ms) ke baad automatically home.html par bhej dega
+        window.onload = () => {
+            setTimeout(() => {
+                // home.html file par redirect kar dega
+                window.location.href = 'home.html';
+            }, 2500); 
+        };
+    </script>
 </body>
 </html>
